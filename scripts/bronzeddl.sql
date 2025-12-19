@@ -9,6 +9,15 @@ CREATE TABLE bronze.brand_info (
 	platform NVARCHAR(50)
 );
 
+-- Create host table
+IF OBJECT_ID ('bronze.host_info', 'U') IS NOT NULL
+	DROP TABLE bronze.host_info;
+CREATE TABLE bronze.host_info (
+	host_id NVARCHAR(50),
+	host_name NVARCHAR(50),
+	host_birthdate NVARCHAR(50)
+);
+
 -- Create shopee livestreaming table
 IF OBJECT_ID ('bronze.shopee_livestreaming', 'U') IS NOT NULL
 	DROP TABLE bronze.shopee_livestreaming;
@@ -24,41 +33,58 @@ CREATE TABLE bronze.shopee_livestreaming(
 	ATC NVARCHAR(50),
 	AvgViewingDuration NVARCHAR(50),
 	Viewers NVARCHAR(50),
-	OrdersPlacedOrder NVARCHAR(50),
-	OrdersConfirmedOrder NVARCHAR(50),
-	ItemsSoldPlacedOrder NVARCHAR(50),
-	ItemsSoldConfirmedOrder NVARCHAR(50),
-	SalesPlacedOrder NVARCHAR(50),
-	SalesConfirmedOrder NVARCHAR(50)
+	Orders_PlacedOrder NVARCHAR(50),
+	Orders_ConfirmedOrder NVARCHAR(50),
+	ItemsSold_PlacedOrder NVARCHAR(50),
+	ItemsSold_ConfirmedOrder NVARCHAR(50),
+	Sales_PlacedOrder NVARCHAR(50),
+	Sales_ConfirmedOrder NVARCHAR(50),
+	live_host_id NVARCHAR(50), 
+	live_start DATETIME2, 
+	live_start_date DATE, 
+	live_start_time TIME,
+	live_duration FLOAT, 
+	live_engaged_viewers INT, 
+	live_comments INT, 
+	live_atc INT,
+	live_viewers INT, 
+	live_placed_orders INT, 
+	live_confirmed_orders INT,
+	live_placed_items_sold INT, 
+	live_confirmed_items_sold INT,
+	live_avg_viewing_duration FLOAT,
+	live_placed_sales FLOAT,
+	live_confirmed_sales FLOAT
 );
 
 -- Create tiktok livestreaming table
 IF OBJECT_ID ('bronze.tiktok_livestreaming', 'U') IS NOT NULL
 	DROP TABLE bronze.tiktok_livestreaming;
 CREATE TABLE bronze.tiktok_livestreaming(
-	IDKreator INT,
-	Kreator NVARCHAR(50),
-	Namapanggilan NVARCHAR(50),
-	WaktuLive DATETIME,
-	Durasi NVARCHAR(50),
-	NilaibarangdaganganbrutoLIVERp INT,
-	Produkyangditambahkan INT,
-	ProdukTerjual INT,
-	PesananSKUyangdibuat INT,
-	PesananSKULIVE INT,
-	ProdukyangterjualdariLIVE INT,
-	Pembeli INT,
-	HargaRataRataRp INT,
-	RasiopesananperklikLIVE NVARCHAR(50),
-	GMVyangdidapatdariLIVERp INT,
-	Penonton INT,
-	LiveStreamDilihat INT,
-	DurasimenontonratarataSiaranLIVE INT,
-	Komentar INT,
-	LiveDibagikan INT,
-	SukapadaLIVE INT,
-	PengikutbaruVideokreator INT,
-	ProdukDilihat INT,
-	KlikProduk INT,
-	CTR NVARCHAR(50)
+	CreatorId NVARCHAR(50), 
+	LivestreamCreator NVARCHAR(50),
+	StartTime NVARCHAR(50), 
+	Duration NVARCHAR(50), 
+	live_direct_gmv FLOAT,
+	OrdersPaidFor INT, 
+	ItemsSold INT, 
+	Customers INT, 
+	live_avg_price FLOAT, 
+	CTOR NVARCHAR(50),
+	live_gross_revenue FLOAT, 
+	Viewers INT, 
+	Views INT, 
+	AvgViewDuration FLOAT, 
+	Comments INT,
+	Shares INT, 
+	Likes INT, 
+	NewFollowers INT, 
+	ProductImpressions INT,
+	ProductClicks INT, 
+	CTR NVARCHAR(50), 
+	live_start_date DATE, 
+	live_start_time TIME,
+	live_duration FLOAT, 
+	live_ctor FLOAT, 
+	live_ctr FLOAT
 );
