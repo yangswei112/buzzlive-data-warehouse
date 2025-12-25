@@ -1,5 +1,5 @@
 -- Create table in bronze schema
-
+USE BuzzliveWarehouse;
 -- Create brand table
 IF OBJECT_ID ('bronze.brand_info', 'U') IS NOT NULL
 	DROP TABLE bronze.brand_info;
@@ -23,9 +23,9 @@ IF OBJECT_ID ('bronze.shopee_livestreaming', 'U') IS NOT NULL
 	DROP TABLE bronze.shopee_livestreaming;
 CREATE TABLE bronze.shopee_livestreaming(
 	DataPeriod NVARCHAR(50),
-	UserId INT,
+	UserId NVARCHAR(50),
 	No INT,
-	LivestreamName NVARCHAR(50),
+	LivestreamName NVARCHAR(100),
 	StartTime NVARCHAR(50),
 	Duration NVARCHAR(50),
 	EngagedViewers NVARCHAR(50),
@@ -40,9 +40,9 @@ CREATE TABLE bronze.shopee_livestreaming(
 	Sales_PlacedOrder NVARCHAR(50),
 	Sales_ConfirmedOrder NVARCHAR(50),
 	live_host_id NVARCHAR(50), 
-	live_start DATETIME2, 
+	live_start DATETIME2(0), 
 	live_start_date DATE, 
-	live_start_time TIME,
+	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_engaged_viewers INT, 
 	live_comments INT, 
@@ -62,7 +62,7 @@ IF OBJECT_ID ('bronze.tiktok_livestreaming', 'U') IS NOT NULL
 	DROP TABLE bronze.tiktok_livestreaming;
 CREATE TABLE bronze.tiktok_livestreaming(
 	CreatorId NVARCHAR(50), 
-	LivestreamCreator NVARCHAR(50),
+	LivestreamCreator NVARCHAR(100),
 	StartTime NVARCHAR(50), 
 	Duration NVARCHAR(50), 
 	live_direct_gmv FLOAT,
@@ -83,7 +83,7 @@ CREATE TABLE bronze.tiktok_livestreaming(
 	ProductClicks INT, 
 	CTR NVARCHAR(50), 
 	live_start_date DATE, 
-	live_start_time TIME,
+	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_ctor FLOAT, 
 	live_ctr FLOAT
