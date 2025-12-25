@@ -1,5 +1,5 @@
 -- Create table in silver schema
-
+USE BuzzliveWarehouse;
 -- Create brand table
 IF OBJECT_ID ('silver.brand_info', 'U') IS NOT NULL
 	DROP TABLE silver.brand_info;
@@ -22,12 +22,12 @@ CREATE TABLE silver.host_info (
 IF OBJECT_ID ('silver.shopee_livestreaming', 'U') IS NOT NULL
 	DROP TABLE silver.shopee_livestreaming;
 CREATE TABLE silver.shopee_livestreaming(
-	UserId INT,
-	LivestreamName NVARCHAR(50),
+	UserId NVARCHAR(50),
+	LivestreamName NVARCHAR(100),
 	live_host_id NVARCHAR(50), 
-	live_start DATETIME2, 
+	live_start DATETIME2(0), 
 	live_start_date DATE, 
-	live_start_time TIME,
+	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_engaged_viewers INT, 
 	live_comments INT, 
@@ -47,7 +47,7 @@ IF OBJECT_ID ('silver.tiktok_livestreaming', 'U') IS NOT NULL
 	DROP TABLE silver.tiktok_livestreaming;
 CREATE TABLE silver.tiktok_livestreaming(
 	CreatorId NVARCHAR(50), 
-	LivestreamCreator NVARCHAR(50), 
+	LivestreamCreator NVARCHAR(100), 
 	live_direct_gmv FLOAT,
 	OrdersPaidFor INT, 
 	ItemsSold INT, 
@@ -64,7 +64,7 @@ CREATE TABLE silver.tiktok_livestreaming(
 	ProductImpressions INT,
 	ProductClicks INT,  
 	live_start_date DATE, 
-	live_start_time TIME,
+	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_ctor FLOAT, 
 	live_ctr FLOAT
