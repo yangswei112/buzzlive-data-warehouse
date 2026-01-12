@@ -31,7 +31,7 @@ BEGIN
 	-- Insert data into shopee_livestreaming table
 	--TRUNCATE TABLE bronze.shopee_livestreaming;
 	BULK INSERT bronze.shopee_livestreaming
-	FROM 'C:\Users\ASUS\Downloads\reporting\result\ready_to_db_shopee.csv'
+	FROM 'C:\Users\ASUS\Downloads\reporting\result\ready_to_db_shopee_bronze.csv'
 	WITH (
 		FIRSTROW = 2,
 		FIELDTERMINATOR = ',',
