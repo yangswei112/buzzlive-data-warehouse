@@ -6,7 +6,8 @@ IF OBJECT_ID ('silver.brand_info', 'U') IS NOT NULL
 CREATE TABLE silver.brand_info (
 	brand_id NVARCHAR(50),
 	brand_name NVARCHAR(50),
-	platform NVARCHAR(50)
+	platform NVARCHAR(50),
+	category NVARCHAR(50)
 );
 
 -- Create host table
@@ -22,15 +23,30 @@ CREATE TABLE silver.host_info (
 IF OBJECT_ID ('silver.shopee_livestreaming', 'U') IS NOT NULL
 	DROP TABLE silver.shopee_livestreaming;
 CREATE TABLE silver.shopee_livestreaming(
+	DataPeriod NVARCHAR(50),
 	UserId NVARCHAR(50),
+	No INT,
 	LivestreamName NVARCHAR(100),
+	StartTime NVARCHAR(50),
+	Duration NVARCHAR(50),
+	EngagedViewers NVARCHAR(50),
+	Comments NVARCHAR(50),
+	ATC NVARCHAR(50),
+	AvgViewingDuration NVARCHAR(50),
+	Viewers NVARCHAR(50),
+	Orders_PlacedOrder NVARCHAR(50),
+	Orders_ConfirmedOrder NVARCHAR(50),
+	ItemsSold_PlacedOrder NVARCHAR(50),
+	ItemsSold_ConfirmedOrder NVARCHAR(50),
+	Sales_PlacedOrder NVARCHAR(50),
+	Sales_ConfirmedOrder NVARCHAR(50),
 	live_host_id NVARCHAR(50), 
 	live_start DATETIME2(0), 
-	live_start_date DATE, 
+	live_start_date DATE,
 	live_start_time TIME(0),
-	live_duration FLOAT, 
+	live_duration FLOAT,
 	live_engaged_viewers INT, 
-	live_comments INT, 
+	live_comments INT,
 	live_atc INT,
 	live_viewers INT, 
 	live_placed_orders INT, 
@@ -39,7 +55,8 @@ CREATE TABLE silver.shopee_livestreaming(
 	live_confirmed_items_sold INT,
 	live_avg_viewing_duration FLOAT,
 	live_placed_sales FLOAT,
-	live_confirmed_sales FLOAT
+	live_confirmed_sales FLOAT,
+	Studio NVARCHAR(20)
 );
 
 -- Create tiktok livestreaming table
@@ -47,12 +64,15 @@ IF OBJECT_ID ('silver.tiktok_livestreaming', 'U') IS NOT NULL
 	DROP TABLE silver.tiktok_livestreaming;
 CREATE TABLE silver.tiktok_livestreaming(
 	CreatorId NVARCHAR(50), 
-	LivestreamCreator NVARCHAR(100), 
+	LivestreamCreator NVARCHAR(100),
+	StartTime NVARCHAR(50), 
+	Duration NVARCHAR(50), 
 	live_direct_gmv FLOAT,
 	OrdersPaidFor INT, 
 	ItemsSold INT, 
 	Customers INT, 
 	live_avg_price FLOAT, 
+	CTOR NVARCHAR(50),
 	live_gross_revenue FLOAT, 
 	Viewers INT, 
 	Views INT, 
@@ -62,10 +82,12 @@ CREATE TABLE silver.tiktok_livestreaming(
 	Likes INT, 
 	NewFollowers INT, 
 	ProductImpressions INT,
-	ProductClicks INT,  
+	ProductClicks INT, 
+	CTR NVARCHAR(50), 
 	live_start_date DATE, 
 	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_ctor FLOAT, 
-	live_ctr FLOAT
+	live_ctr FLOAT,
+	Studio NVARCHAR(20)
 );
