@@ -6,7 +6,8 @@ IF OBJECT_ID ('bronze.brand_info', 'U') IS NOT NULL
 CREATE TABLE bronze.brand_info (
 	brand_id NVARCHAR(50),
 	brand_name NVARCHAR(50),
-	platform NVARCHAR(50)
+	platform NVARCHAR(50),
+	category NVARCHAR(50)
 );
 
 -- Create host table
@@ -42,19 +43,7 @@ CREATE TABLE bronze.shopee_livestreaming(
 	live_host_id NVARCHAR(50), 
 	live_start DATETIME2(0), 
 	live_start_date DATE, 
-	live_start_time TIME(0),
-	live_duration FLOAT, 
-	live_engaged_viewers INT, 
-	live_comments INT, 
-	live_atc INT,
-	live_viewers INT, 
-	live_placed_orders INT, 
-	live_confirmed_orders INT,
-	live_placed_items_sold INT, 
-	live_confirmed_items_sold INT,
-	live_avg_viewing_duration FLOAT,
-	live_placed_sales FLOAT,
-	live_confirmed_sales FLOAT
+	live_viewers INT
 );
 
 -- Create tiktok livestreaming table
@@ -86,5 +75,6 @@ CREATE TABLE bronze.tiktok_livestreaming(
 	live_start_time TIME(0),
 	live_duration FLOAT, 
 	live_ctor FLOAT, 
-	live_ctr FLOAT
+	live_ctr FLOAT,
+	Studio NVARCHAR(20)
 );
