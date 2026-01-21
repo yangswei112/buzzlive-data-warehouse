@@ -42,22 +42,6 @@ FROM silver.tiktok_livestreaming tl
 LEFT JOIN silver.brand_info bi
 ON tl.CreatorId = bi.brand_id;
 
--- DEEP DASHBOARD REPORT
---CREATE VIEW gold.DeepShopeeLive AS
---SELECT * 
---FROM silver.shopee_livestreaming sl
---LEFT JOIN silver.brand_info bi
---ON sl.UserId = bi.brand_id
---WHERE sl.Studio = 'Klaten';
-
---CREATE VIEW gold.DeepShopeeLive AS
---SELECT * 
---FROM silver.shopee_livestreaming sl
---LEFT JOIN silver.brand_info bi
---ON sl.UserId = bi.brand_id
---WHERE sl.Studio = 'Klaten';
-
-
 -- FOR HR
 CREATE VIEW gold.ShopeeRawDataForHR AS
 SELECT sl.LivestreamName, sl.StartTime, sl.Duration, sl.live_start_date, bi.brand_name 
