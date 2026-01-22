@@ -63,6 +63,7 @@ def shopee_transform(trial):
             lambda x: x.split("#")[-1].strip(" ").upper() if '#' in x else
             emoji.replace_emoji(x, replace=' ').split(' ')[-1].strip())
         trial['live_host_id'] = trial['live_host_id'].apply(lambda x: x.replace("", "NULL") if x == '' else x)
+        print('STEP 2 PROCESS DONE, CONTINUE TO STEP 3')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 2 PROCESS. THE ERROR IS: ', e)
 
@@ -106,7 +107,7 @@ def shopee_transform(trial):
         print('STEP 6 PROCESS STARTS')
         trial['live_avg_viewing_duration'] = trial['AvgViewingDuration'].apply(
             lambda x: convert_into_seconds_duration(pd.to_datetime(x, format="%H:%M:%S").time()))
-        print('STEP 6 PROCESS DONE, CONTINUE TO THE LAST STEP')
+        print('STEP 6 PROCESS DONE, CONTINUE TO STEP 7')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 6 PROCESS. THE ERROR IS: ', e)
 
@@ -115,7 +116,7 @@ def shopee_transform(trial):
         print('STEP 7 PROCESS STARTS')
         trial["live_placed_sales"] = trial['Sales_PlacedOrder'].apply(lambda x: convert_sales(x))
         trial["live_confirmed_sales"] = trial['Sales_ConfirmedOrder'].apply(lambda x: convert_sales(x))
-        print('STEP 7 PROCESS DONE')
+        print('STEP 7 PROCESS DONE, CONTINUE TO THE LAST STEP')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 7 PROCESS. THE ERROR IS: ', e)
 
@@ -179,7 +180,7 @@ def tiktok_transform_vers1(trial):
     try:
         print('STEP 3 PROCESS STARTS')
         trial['live_duration'] = trial['Duration'].apply(lambda x: convert_duration_tiktok(x))
-        print('STEP 3 PROCESS DONE, CONTINUE TO LAST STEP')
+        print('STEP 3 PROCESS DONE, CONTINUE TO NEXT STEP')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 3 PROCESS. THE ERROR IS: ', e)
 
@@ -188,7 +189,7 @@ def tiktok_transform_vers1(trial):
         print('STEP 4 PROCESS STARTS')
         trial['live_ctor'] = trial['CTOR'].apply(lambda x: float(x.strip("%")))
         trial['live_ctr'] = trial['CTR'].apply(lambda x: float(x.strip("%")))
-        print('STEP 4 PROCESS DONE')
+        print('STEP 4 PROCESS DONE, CONTINUE TO NEXT STEP')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 4 PROCESS. THE ERROR IS: ', e)
 
@@ -267,7 +268,7 @@ def tiktok_transform_vers2(trial):
         print('STEP 5 PROCESS STARTS')
         trial['live_ctr'] = trial['CTR'].apply(lambda x: round(x * 100, 2))
         trial['live_ctor'] = trial['CTOR'].apply(lambda x: round(x * 100, 2))
-        print('STEP 5 PROCESS DONE')
+        print('STEP 5 PROCESS DONE, CONTINUE TO NEXT STEP')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 5 PROCESS. THE ERROR IS: ', e)
 
