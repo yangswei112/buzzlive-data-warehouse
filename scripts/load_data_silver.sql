@@ -39,7 +39,7 @@ BEGIN
 	-- Insert data into shopee_livestreaming table
 	--TRUNCATE TABLE bronze.shopee_livestreaming;
 	BULK INSERT silver.shopee_livestreaming
-	FROM 'C:\Users\ASUS\Downloads\reporting\result\ready_to_db_shopee_silver.csv'
+	FROM 'C:\Users\ASUS\Documents\Data Engineering\BuzzliveWarehouse\datasets\result\ready_to_db_shopee_silver.csv'
 	WITH (
 		FIRSTROW = 2,
 		FIELDTERMINATOR = ',',
@@ -55,7 +55,7 @@ BEGIN
 	-- Insert data into tiktok_livestreaming table
 	--TRUNCATE TABLE bronze.tiktok_livestreaming;
 	BULK INSERT silver.tiktok_livestreaming
-	FROM 'C:\Users\ASUS\Downloads\reporting\result\ready_to_db_tiktok.csv'
+	FROM 'C:\Users\ASUS\Documents\Data Engineering\BuzzliveWarehouse\datasets\result\ready_to_db_tiktok.csv'
 	WITH (
 		FIRSTROW = 2,
 		FIELDTERMINATOR = ',',
