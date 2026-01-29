@@ -44,13 +44,13 @@ ON tl.CreatorId = bi.brand_id;
 
 -- FOR HR
 CREATE VIEW gold.ShopeeRawDataForHR AS
-SELECT sl.LivestreamName, sl.StartTime, sl.Duration, sl.live_start_date, bi.brand_name 
+SELECT sl.LivestreamName, sl.StartTime, sl.Duration, sl.live_start_date, bi.brand_name, bi.platform 
 FROM bronze.shopee_livestreaming sl
 LEFT JOIN bronze.brand_info bi
 ON sl.UserId = bi.brand_id;
 
 CREATE VIEW gold.TiktokRawDataForHR AS
-SELECT tl.LivestreamCreator, tl.StartTime, tl.Duration, tl.live_start_date, bi.brand_name 
+SELECT tl.LivestreamCreator, tl.StartTime, tl.Duration, tl.live_start_date, bi.brand_name, bi.platform 
 FROM bronze.tiktok_livestreaming tl
 LEFT JOIN bronze.brand_info bi
 ON tl.CreatorId = bi.brand_id;
