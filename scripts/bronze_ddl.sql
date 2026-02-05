@@ -5,9 +5,10 @@ IF OBJECT_ID ('bronze.brand_info', 'U') IS NOT NULL
 	DROP TABLE bronze.brand_info;
 CREATE TABLE bronze.brand_info (
 	brand_id NVARCHAR(50),
+	brand_category NVARCHAR(50),
 	brand_name NVARCHAR(50),
 	platform NVARCHAR(50),
-	category NVARCHAR(50)
+	business_category NVARCHAR(50)
 );
 
 -- Create host table
