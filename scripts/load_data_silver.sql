@@ -7,15 +7,17 @@ BEGIN
 	TRUNCATE TABLE silver.brand_info;
 	INSERT INTO silver.brand_info (
 		brand_id,
+		brand_category,
 		brand_name,
 		platform,
-		category)
+		business_category)
 
 	SELECT
 	brand_id,
+	brand_category,
 	brand_name,
 	platform,
-	category
+	business_category
 	FROM bronze.brand_info;
 
 	-- Insert data into host_table
