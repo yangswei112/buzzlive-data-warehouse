@@ -3,6 +3,8 @@ USE BuzzliveWarehouse;
 GO
 
 -- TIKTOK LIVE
+DROP PROCEDURE silver.filter_brand_tiktok;
+GO
 CREATE PROCEDURE silver.filter_brand_tiktok
 -- SET PARAMETER
     @start_date VARCHAR(10),
@@ -50,6 +52,8 @@ END;
 GO
 
 -- SHOPEE LIVE
+DROP PROCEDURE silver.filter_brand_shopee;
+GO
 CREATE PROCEDURE silver.filter_brand_shopee
 -- SET PARAMETER
     @start_date VARCHAR(10),
