@@ -88,7 +88,7 @@ BEGIN
     -- Samyang
     UPDATE silver.shopee_livestreaming
     SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Samyang Food Indonesia' AND platform='Shopee')
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Samyang' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
 
     -- Heavenly Yogurt
