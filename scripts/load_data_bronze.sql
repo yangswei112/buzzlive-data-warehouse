@@ -1,6 +1,8 @@
 -- Insert data into bronze schema tables
 USE BuzzliveWarehouse;
 GO
+DROP PROCEDURE bronze.load_info;
+GO
 CREATE PROCEDURE bronze.load_info AS
 BEGIN
 	-- Insert data into brand_info table
@@ -26,6 +28,8 @@ END;
 
 GO
 
+DROP PROCEDURE bronze.load_shopee;
+GO
 CREATE PROCEDURE bronze.load_shopee AS
 BEGIN
 	-- Insert data into shopee_livestreaming table
@@ -41,7 +45,9 @@ BEGIN
 END;
 
 GO
- 
+
+DROP PROCEDURE bronze.load_tiktok;
+GO 
 CREATE PROCEDURE bronze.load_tiktok AS
 BEGIN
 	-- Insert data into tiktok_livestreaming table

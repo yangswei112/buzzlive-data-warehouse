@@ -2,9 +2,12 @@ USE BuzzliveWarehouse;
 
 GO
 -- CREATE VIEWS FOR WEEKLY REPORTING
+DROP VIEW gold.WeeklyShopeeLive;
+GO
 CREATE VIEW gold.WeeklyShopeeLive AS
 SELECT
 sl.Studio,
+bi.brand_category AS Category,
 bi.brand_name AS Brand,
 sl.live_start_date AS Date,
 sl.live_start_time As StartLive,
@@ -26,9 +29,12 @@ ON sl.live_host_id = hi.host_id;
 
 GO
 
+DROP VIEW gold.WeeklyTiktokLive;
+GO
 CREATE VIEW gold.WeeklyTiktokLive AS
 SELECT
 tl.Studio AS Studio,
+bi.brand_category AS Category,
 bi.brand_name AS Brand,
 tl.live_start_date AS Date,
 tl.live_start_time As StartLive,
@@ -48,6 +54,8 @@ ON tl.CreatorId = bi.brand_id;
 GO
 
 -- FOR HR
+DROP VIEW gold.ShopeeRawDataForHR;
+GO
 CREATE VIEW gold.ShopeeRawDataForHR AS
 SELECT sl.LivestreamName, sl.StartTime, sl.Duration, sl.live_start_date, bi.brand_name, bi.platform 
 FROM bronze.shopee_livestreaming sl
@@ -56,6 +64,8 @@ ON sl.UserId = bi.brand_id;
 
 GO
 
+DROP VIEW gold.TiktokRawDataForHR;
+GO
 CREATE VIEW gold.TiktokRawDataForHR AS
 SELECT tl.LivestreamCreator, tl.StartTime, tl.Duration, tl.live_start_date, bi.brand_name, bi.platform 
 FROM bronze.tiktok_livestreaming tl

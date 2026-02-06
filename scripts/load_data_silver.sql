@@ -1,6 +1,9 @@
 -- Insert data into silver table
 USE BuzzliveWarehouse;
 GO
+
+DROP PROCEDURE silver.load_info;
+GO
 CREATE PROCEDURE silver.load_info AS
 BEGIN
 	-- Insert data into brand_table
@@ -36,6 +39,8 @@ END;
 
 GO
 
+DROP PROCEDURE silver.load_shopee;
+GO
 CREATE PROCEDURE silver.load_shopee AS
 BEGIN
 	-- Insert data into shopee_livestreaming table
@@ -51,7 +56,9 @@ BEGIN
 END;
 
 GO
- 
+
+DROP PROCEDURE silver.load_tiktok;
+GO 
 CREATE PROCEDURE silver.load_tiktok AS
 BEGIN
 	-- Insert data into tiktok_livestreaming table
