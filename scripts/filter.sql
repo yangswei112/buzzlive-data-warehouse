@@ -227,7 +227,10 @@ BEGIN
 
     -- SENSATIA BOTANICA
     UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '10:00:00' AND '11:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SENSATIA BOTANICA' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
 
@@ -263,7 +266,7 @@ BEGIN
     -- SONIX
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '20:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '18:00:00' AND '19:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SONIX' AND platform='Shopee')
