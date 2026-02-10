@@ -312,4 +312,12 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='JUNICASE.ID' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
 
+    -- VILEO
+    UPDATE silver.shopee_livestreaming
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '14:00:00' AND '18:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VILEOHANDICRAFT' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
 END;
