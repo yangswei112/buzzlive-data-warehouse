@@ -281,3 +281,69 @@ def tiktok_transform_vers2(trial):
         print('ERROR OCCURED DURING STEP 6 PROCESS. THE ERROR IS: ', e)
 
     return trial
+
+
+def shopee_transform_action(shopee_path: str):
+    """
+    to transform and save shopee live data to csv
+    """
+    shopee_file_names = os.listdir(shopee_path)
+
+    transformed_shopee_lst = []
+
+    print('SHOPEE TRANSFORMING PROCESS STARTS')
+
+    for file in shopee_file_names:
+        loaded_file = pd.read_csv(shopee_report_path+file)
+        print(file + " " + "is loaded")
+        transformed_file = shopee_transform(loaded_file)
+        print(file + " " + "is transformed")
+        transformed_shopee_lst.append(transformed_file)
+        print("############################################################")
+        
+    print('all the shopee files have been transformed')
+    print('SHOPEE TRANSFORMING PROCESS DONE')
+
+    ready_to_db_shopee_silver = pd.concat(transformed_shopee_lst)
+    ready_to_db_shopee_silver.to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
+
+    shopee_bronze_db = ['DataPeriod', 'UserId', 'No', 'LivestreamName', 'StartTime', 'Duration',
+                        'EngagedViewers', 'Comments', 'ATC', 'AvgViewingDuration', 'Viewers',
+                        'Orders_PlacedOrder', 'Orders_ConfirmedOrder', 'ItemsSold_PlacedOrder',
+                        'ItemsSold_ConfirmedOrder', 'Sales_PlacedOrder', 'Sales_ConfirmedOrder',
+                        'live_host_id', 'live_start', 'live_start_date','live_viewers']
+
+    ready_to_db_shopee_bronze = ready_to_db_shopee_silver[shopee_bronze_db]
+    ready_to_db_shopee_silver[shopee_bronze_db].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
+
+    print('all the shopee files are ready to be loaded to database')
+    print('the shape of new shopee bronze data: ', ready_to_db_shopee_bronze.shape)
+    print('the shape of new shopee silver data: ', ready_to_db_shopee_silver.shape)
+
+
+def tiktok_transform_action(tiktok_path: str):
+    """
+    to transform and save tiktok live to csv
+    """
+    tiktok_file_names = os.listdir(tiktok_path)
+
+    transformed_tiktok_lst = []
+
+    print('TIKTOK 1 TRANSFORMING PROCESS STARTS')
+    # TRANSFORM TIKTOK 1
+    for file in tiktok_file_names:
+        loaded_file = pd.read_excel(tiktok_report_path+file, skiprows=2)
+        print(file + " " + "is loaded")
+        transformed_file = tiktok_transform_vers1(loaded_file)
+        print(file + " " + "is transformed")
+        transformed_tiktok_lst.append(transformed_file)
+        print("############################################################")
+    print('TIKTOK 1 TRANSFORMING PROCESS DONE')  
+
+    print('all the tiktok files have been transformed')
+
+    ready_to_db_tiktok = pd.concat(transformed_tiktok_lst)
+    ready_to_db_tiktok.to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
+
+    print('all the tiktok files are ready to be loaded to database')
+    print('the shape of new tiktok data: ', ready_to_db_tiktok.shape)
