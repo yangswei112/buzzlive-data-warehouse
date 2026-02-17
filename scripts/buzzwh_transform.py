@@ -2,6 +2,7 @@
 from buzzwh_helper_func import *
 import pandas as pd
 import emoji
+import os
 
 
 def shopee_transform(trial):
@@ -283,7 +284,7 @@ def tiktok_transform_vers2(trial):
     return trial
 
 
-def shopee_transform_action(shopee_path: str):
+def shopee_transform_action(shopee_path: str, result_path: str):
     """
     to transform and save shopee live data to csv
     """
@@ -294,7 +295,7 @@ def shopee_transform_action(shopee_path: str):
     print('SHOPEE TRANSFORMING PROCESS STARTS')
 
     for file in shopee_file_names:
-        loaded_file = pd.read_csv(shopee_report_path+file)
+        loaded_file = pd.read_csv(shopee_path+file)
         print(file + " " + "is loaded")
         transformed_file = shopee_transform(loaded_file)
         print(file + " " + "is transformed")
@@ -321,7 +322,7 @@ def shopee_transform_action(shopee_path: str):
     print('the shape of new shopee silver data: ', ready_to_db_shopee_silver.shape)
 
 
-def tiktok_transform_action(tiktok_path: str):
+def tiktok_transform_action(tiktok_path: str, result_path: str):
     """
     to transform and save tiktok live to csv
     """
@@ -332,7 +333,7 @@ def tiktok_transform_action(tiktok_path: str):
     print('TIKTOK 1 TRANSFORMING PROCESS STARTS')
     # TRANSFORM TIKTOK 1
     for file in tiktok_file_names:
-        loaded_file = pd.read_excel(tiktok_report_path+file, skiprows=2)
+        loaded_file = pd.read_excel(tiktok_path+file, skiprows=2)
         print(file + " " + "is loaded")
         transformed_file = tiktok_transform_vers1(loaded_file)
         print(file + " " + "is transformed")
