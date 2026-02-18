@@ -320,4 +320,28 @@ BEGIN
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VILEOHANDICRAFT' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
+
+    -- WESTBRONCO
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='WESTBRONCO' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+
+    -- SMITHMENSUPLAY
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SMITHMENSUPLAY' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+
+    -- MITRA10BAHANBANGUNAN
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='MITRA10BAHANBANGUNAN' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+
+    -- AOMIOFFICIAL
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='AOMIOFFICIAL' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
 END;
