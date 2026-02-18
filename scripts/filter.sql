@@ -315,7 +315,7 @@ BEGIN
     -- VILEO
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '14:00:00' AND '18:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '17:00:00' AND '18:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VILEOHANDICRAFT' AND platform='Shopee')
@@ -335,7 +335,10 @@ BEGIN
 
     -- MITRA10BAHANBANGUNAN
     UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '14:00:00' AND '19:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='MITRA10BAHANBANGUNAN' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
 
