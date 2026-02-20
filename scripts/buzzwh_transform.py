@@ -3,6 +3,7 @@ from buzzwh_helper_func import *
 import pandas as pd
 import emoji
 import os
+import pyodbc
 
 
 def shopee_transform(trial):
@@ -348,3 +349,105 @@ def tiktok_transform_action(tiktok_path: str, result_path: str):
 
     print('all the tiktok files are ready to be loaded to database')
     print('the shape of new tiktok data: ', ready_to_db_tiktok.shape)
+
+
+def update_shopee_sales(shopee_path: str, connection_db: str):
+    """
+    updating shopee live sales monthly on database
+    """
+    shopee_file_names = os.listdir(shopee_path)
+    # declare PYODBC connection with the string
+    conn = pyodbc.connect(connection_db)
+    # declaring cursor
+    cursor = conn.cursor()
+
+    transformed_shopee_lst = []
+
+    print('SHOPEE TRANSFORMING PROCESS STARTS')
+
+    for file in shopee_file_names:
+        loaded_file = pd.read_csv(shopee_path+file)
+        print(file + " " + "is loaded")
+        transformed_file = shopee_transform(loaded_file)
+        print(file + " " + "is transformed")
+        transformed_shopee_lst.append(transformed_file)
+        print("############################################################")
+        
+    print('all the shopee files have been transformed')
+    print('SHOPEE TRANSFORMING PROCESS DONE')
+
+    ready_to_db_shopee_silver_update = pd.concat(transformed_shopee_lst)
+
+    # Update Shopee Sales
+    ready_to_update_shopee_silver = ready_to_db_shopee_silver_update[['UserId','live_start','live_placed_orders', 'live_confirmed_orders',
+                                                                'live_placed_items_sold', 'live_confirmed_items_sold','live_placed_sales',
+                                                                'live_confirmed_sales']]
+    # ready_to_update_shopee_silver.head()
+
+    for index, row in ready_to_update_shopee_silver.iterrows():
+        query_update_sales_shopee = f"""
+                        UPDATE silver.shopee_livestreaming
+                        SET live_confirmed_sales = {row['live_confirmed_sales']},
+                            live_placed_sales = {row['live_placed_sales']},
+                            live_confirmed_items_sold = {row['live_confirmed_items_sold']},
+                            live_placed_items_sold = {row['live_placed_items_sold']},
+                            live_confirmed_orders = {row['live_confirmed_orders']},
+                            live_placed_orders = {row['live_placed_orders']}
+                        WHERE UserId = {row['UserId']}
+                        AND live_start = '{row['live_start']}'
+                    """
+        # update
+        cursor.execute(query_update_sales_shopee)
+        conn.commit()
+        
+    cursor.close()
+
+    print("ALL THE SHOPEE SALES DATA HAVE BEEN UPDATED ON DATABASE")
+
+
+def update_tiktok_sales(tiktok_path: str, connection_db: str):
+    """
+    updating tiktok live sales monthly on database
+    """
+    tiktok_file_names = os.listdir(tiktok_path)
+    # declare PYODBC connection with the string
+    conn = pyodbc.connect(connection_db)
+    # declaring cursor
+    cursor = conn.cursor()
+
+    # TRANSFORM TIKTOK LIVESTREAMING
+    transformed_tiktok_lst = []
+
+    print('TIKTOK 1 TRANSFORMING PROCESS STARTS')
+    # TRANSFORM TIKTOK 1
+    for file in tiktok_file_names:
+        loaded_file = pd.read_excel(tiktok_path+file, skiprows=2)
+        print(file + " " + "is loaded")
+        transformed_file = tiktok_transform_vers1(loaded_file)
+        print(file + " " + "is transformed")
+        transformed_tiktok_lst.append(transformed_file)
+        print("############################################################")
+    print('TIKTOK 1 TRANSFORMING PROCESS DONE')  
+    
+    print('all the tiktok files have been transformed')
+
+    ready_to_db_tiktok_update = pd.concat(transformed_tiktok_lst)  
+    
+    # Update Tiktok Sales
+    ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_direct_gmv']]
+    # ready_to_update_tiktok.head()
+
+    for index, row in ready_to_update_tiktok.iterrows():
+        query_update_sales_tiktok = f"""
+                        UPDATE silver.tiktok_livestreaming
+                        SET live_direct_gmv = {row['live_direct_gmv']}
+                        WHERE CreatorId = {row['CreatorId']}
+                        AND StartTime = '{row['StartTime']}'
+                    """
+        # update
+        cursor.execute(query_update_sales_tiktok)
+        conn.commit()
+        
+    cursor.close()
+
+    print("ALL THE TIKTOK SALES DATA HAVE BEEN UPDATED ON DATABASE")
