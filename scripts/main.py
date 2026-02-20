@@ -17,9 +17,9 @@ shopee_transform_action(shopee_report_path, result_path)
 # TRANSFORM TIKTOK LIVESTREAMING
 tiktok_transform_action(tiktok_report_path, result_path)
 
-# UPDATE SHOPEE MONTHLY SALES
-update_shopee_sales(shopee_report_path, connection_string)
+# # UPDATE SHOPEE MONTHLY SALES
+# update_shopee_sales(shopee_report_path, connection_string)
 
-# UPDATE TIKTOK MONTHLY SALES
-update_tiktok_sales(tiktok_report_path, connection_string)
+# # UPDATE TIKTOK MONTHLY SALES
+# update_tiktok_sales(tiktok_report_path, connection_string)
 
