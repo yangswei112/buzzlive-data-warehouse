@@ -451,3 +451,26 @@ def update_tiktok_sales(tiktok_path: str, connection_db: str):
     cursor.close()
 
     print("ALL THE TIKTOK SALES DATA HAVE BEEN UPDATED ON DATABASE")
+
+
+def load_to_db(connection_string: str, start_date: str, end_date: str):
+    """
+    to load shopee & tiktok data to database
+    """
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    query = f"""
+            EXEC bronze.load_info;
+            EXEC bronze.load_tiktok;
+            EXEC bronze.load_shopee;
+            EXEC silver.load_info;
+            EXEC silver.load_tiktok;
+            EXEC silver.load_shopee;
+            EXEC silver.filter_brand_tiktok @start_date={start_date}, @end_date={end_date};
+            EXEC silver.filter_brand_shopee @start_date={start_date}, @end_date={end_date};
+        """
+    cursor.execute(query)
+    conn.commit()
+    cursor.close()
+
+    print('data has been loaded to database')

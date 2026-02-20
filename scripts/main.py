@@ -11,12 +11,19 @@ shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse
 tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/adds/'
 result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
-# TRANSFORM SHOPEE LIVESTREAMING
-shopee_transform_action(shopee_report_path, result_path)
+# SET UP DATE RANGE
+start_date = '2024-02-01'
+end_date = '2024-02-28'
 
-# TRANSFORM TIKTOK LIVESTREAMING
+# TRANSFORM DATA
+shopee_transform_action(shopee_report_path, result_path)
 tiktok_transform_action(tiktok_report_path, result_path)
 
+# LOAD DATA TO DATABASE
+load_to_db(connection_string, start_date, end_date)
+
+
+# UPDATE MONTHLY SALES
 # # UPDATE SHOPEE MONTHLY SALES
 # update_shopee_sales(shopee_report_path, connection_string)
 
