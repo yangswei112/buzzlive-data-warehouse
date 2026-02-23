@@ -82,6 +82,7 @@ BEGIN
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
         WHEN live_start_time BETWEEN '18:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '03:00:00' AND '05:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Shopee')
@@ -153,6 +154,13 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Beeme' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'BEEME FILTERED'
+
+     -- Ona Indonesia
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Ona Indonesia' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'ONA INDONESIA FILTERED'
 
     -- reniafrianishop
     UPDATE silver.shopee_livestreaming
@@ -393,4 +401,14 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='AOMIOFFICIAL' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'AOMIOFFICIAL FILTERED'
+
+    -- LEARNING RESOURCES
+    UPDATE silver.shopee_livestreaming
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '14:00:00' AND '16:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='LEARNING RESOURCES' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'LEARNING RESOURCES FILTERED'
 END;
