@@ -57,7 +57,7 @@ GO
 DROP VIEW gold.ShopeeRawDataForHR;
 GO
 CREATE VIEW gold.ShopeeRawDataForHR AS
-SELECT sl.LivestreamName, sl.StartTime, sl.Duration, sl.live_start_date, bi.brand_name, bi.platform 
+SELECT sl.LivestreamName, sl.live_start, sl.Duration, sl.live_start_date, bi.brand_name, bi.platform 
 FROM bronze.shopee_livestreaming sl
 LEFT JOIN bronze.brand_info bi
 ON sl.UserId = bi.brand_id;
