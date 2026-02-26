@@ -4,6 +4,7 @@ import pandas as pd
 import emoji
 import os
 import pyodbc
+from google.cloud import bigquery
 
 
 def shopee_transform(trial):
@@ -474,3 +475,39 @@ def load_to_db(connection_string: str, start_date: str, end_date: str):
     cursor.close()
 
     print('data has been loaded to database')
+
+
+def get_raw_data_from_db(connection_string: str, start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    to get raw data from database
+    """
+    conn = pyodbc.connect(connection_string)
+    query_raw_shopee = f"""
+            SELECT * FROM gold.ShopeeRawDataForHR
+            WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}';
+    """
+
+    query_raw_tiktok = f"""
+            SELECT * FROM gold.TiktokRawDataForHR
+            WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}';
+    """
+
+    df_raw_shopee = pd.read_sql_query(query_raw_shopee, conn)
+    df_raw_tiktok = pd.read_sql_query(query_raw_tiktok, conn)
+    df_raw_tiktok.rename(columns={'LivestreamCreator':'LivestreamName'}, inplace=True)
+    df_raw = pd.concat([df_raw_shopee,df_raw_tiktok])
+    
+    conn.close()
+
+    print('raw data has been retrieved from database')
+
+    return df_raw
+
+def load_to_bigquery(df: pd.DataFrame, table_id: str):
+    """
+    to load dataframe to bigquery
+    """
+    client = bigquery.Client()
+    job = client.load_table_from_dataframe(df, table_id)
+    job.result()  # Wait for the job to complete.
+    print(f"Loaded {job.output_rows} rows into {table_id}.")
