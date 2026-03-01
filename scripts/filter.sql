@@ -428,14 +428,21 @@ BEGIN
 
     -- VIDYA OUTLET
     UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '08:00:00' AND '09:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '18:00:00' AND '21:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'VIDYA OUTLET FILTERED'
 
     -- COROLLA.FASHION.ID
     UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '20:00:00' AND '00:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='COROLLA.FASHION.ID' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'COROLLA.FASHION.ID FILTERED'
