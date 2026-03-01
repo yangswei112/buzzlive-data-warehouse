@@ -418,4 +418,25 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='LEARNING RESOURCES' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'LEARNING RESOURCES FILTERED'
+
+    -- WELLENPRINT
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='WELLENPRINT' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'WELLENPRINT FILTERED'
+
+    -- VIDYA OUTLET
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'VIDYA OUTLET FILTERED'
+
+    -- COROLLA.FASHION.ID
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='COROLLA.FASHION.ID' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'COROLLA.FASHION.ID FILTERED'
 END;
