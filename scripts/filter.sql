@@ -60,6 +60,16 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ONA INDONESIA FILTERED'
 
+     -- Medikon
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '09:00:00' AND '17:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Medikon' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'MEDIKON FILTERED'
+
 END;
 
 GO
@@ -445,4 +455,14 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='COROLLA.FASHION.ID' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'COROLLA.FASHION.ID FILTERED'
+
+    -- ALKES
+    UPDATE silver.shopee_livestreaming
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '07:00:00' AND '10:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ALKES' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'ALKES FILTERED'
 END;
