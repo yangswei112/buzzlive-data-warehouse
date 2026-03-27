@@ -70,6 +70,13 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'MEDIKON FILTERED'
 
+     -- Wund+
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = 'Klaten'
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Wund+' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'WUND+ FILTERED'
+
 END;
 
 GO
@@ -177,6 +184,13 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Ona Indonesia' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ONA INDONESIA FILTERED'
+
+     -- Wund+
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Wund+' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'WUND+ FILTERED'
 
     -- reniafrianishop
     UPDATE silver.shopee_livestreaming
