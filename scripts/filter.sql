@@ -15,7 +15,8 @@ BEGIN
     -- DELTOMED
     UPDATE silver.tiktok_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '14:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '07:00:00' AND '09:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '19:00:00' AND '21:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Deltomed' AND platform='Tiktok')
@@ -94,7 +95,9 @@ BEGIN
     -- DELTOMED
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '14:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '07:00:00' AND '09:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '12:00:00' AND '13:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '17:00:00' AND '21:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Deltomed' AND platform='Shopee')
@@ -104,8 +107,9 @@ BEGIN
     -- TATARUMA
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
+        WHEN live_start_time BETWEEN '09:00:00' AND '10:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '15:00:00' AND '16:59:00' THEN 'Klaten'
         WHEN live_start_time BETWEEN '18:00:00' AND '21:59:00' THEN 'Klaten'
-        WHEN live_start_time BETWEEN '03:00:00' AND '05:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Shopee')
@@ -333,7 +337,7 @@ BEGIN
     -- TOKOBIG
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '16:00:00' AND '20:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '18:00:00' AND '21:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='TOKOBIG')
