@@ -397,10 +397,7 @@ BEGIN
 
     -- VILEO
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '17:00:00' AND '18:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VILEOHANDICRAFT' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'VILEO FILTERED';
@@ -431,10 +428,7 @@ BEGIN
 
     -- AOMIOFFICIAL
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '16:00:00' AND '21:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='AOMIOFFICIAL' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'AOMIOFFICIAL FILTERED'
@@ -459,8 +453,8 @@ BEGIN
     -- VIDYA OUTLET
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
-        WHEN live_start_time BETWEEN '06:00:00' AND '09:59:00' THEN 'Klaten'
-        WHEN live_start_time BETWEEN '18:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '06:00:00' AND '10:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '18:00:00' AND '23:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
@@ -476,10 +470,7 @@ BEGIN
 
     -- ALKES
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '07:00:00' AND '10:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ALKES' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ALKES FILTERED'
