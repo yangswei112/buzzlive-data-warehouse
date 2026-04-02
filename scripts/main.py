@@ -7,7 +7,7 @@ import pyodbc
 connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # SET UP THE FILE PATH
-shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/mar/'
+# shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/mar/'
 tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/mar/'
 # result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
@@ -28,7 +28,7 @@ end_date = '2024-03-31'
 
 # UPDATE MONTHLY SALES
 # UPDATE SHOPEE MONTHLY SALES
-update_shopee_sales(shopee_report_path, connection_string)
+# update_shopee_sales(shopee_report_path, connection_string)
 
 # UPDATE TIKTOK MONTHLY SALES
 update_tiktok_sales(tiktok_report_path, connection_string)
