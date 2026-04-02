@@ -435,13 +435,16 @@ def update_tiktok_sales(tiktok_path: str, connection_db: str):
     ready_to_db_tiktok_update = pd.concat(transformed_tiktok_lst)  
     
     # Update Tiktok Sales
-    ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_direct_gmv']]
+    ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_direct_gmv','OrdersPaidFor','ItemsSold','Customer']]
     # ready_to_update_tiktok.head()
 
     for index, row in ready_to_update_tiktok.iterrows():
         query_update_sales_tiktok = f"""
                         UPDATE silver.tiktok_livestreaming
-                        SET live_direct_gmv = {row['live_direct_gmv']}
+                        SET live_direct_gmv = {row['live_direct_gmv']},
+                            OrdersPaidFor = {row['OrdersPaidFor']},
+                            ItemsSold = {row['ItemsSold']},
+                            Customers = {row['Customer']}
                         WHERE CreatorId = {row['CreatorId']}
                         AND StartTime = '{row['StartTime']}'
                     """
