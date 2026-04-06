@@ -7,16 +7,16 @@ import pyodbc
 connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # SET UP THE FILE PATH
-# shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/mar/'
-tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/mar/'
-# result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
+shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/apr-week1-2/'
+# tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/apr-week1/'
+result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
 # SET UP DATE RANGE
 start_date = '2024-03-01'
 end_date = '2024-03-31'
 
-# # # TRANSFORM DATA
-# shopee_transform_action(shopee_report_path, result_path)
+# # TRANSFORM DATA
+shopee_transform_action(shopee_report_path, result_path)
 # tiktok_transform_action(tiktok_report_path, result_path)
 
 # # LOAD DATA TO DATABASE
@@ -30,6 +30,6 @@ end_date = '2024-03-31'
 # UPDATE SHOPEE MONTHLY SALES
 # update_shopee_sales(shopee_report_path, connection_string)
 
-# UPDATE TIKTOK MONTHLY SALES
-update_tiktok_sales(tiktok_report_path, connection_string)
+# # UPDATE TIKTOK MONTHLY SALES
+# update_tiktok_sales(tiktok_report_path, connection_string)
 
