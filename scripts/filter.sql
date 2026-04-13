@@ -78,6 +78,13 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'WUND+ FILTERED'
 
+     -- Samyang
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = 'Klaten'
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Samyang' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'SAMYANG FILTERED'
+
 END;
 
 GO
@@ -435,10 +442,7 @@ BEGIN
 
     -- LEARNING RESOURCES
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '14:00:00' AND '16:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='LEARNING RESOURCES' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'LEARNING RESOURCES FILTERED'
@@ -452,11 +456,7 @@ BEGIN
 
     -- VIDYA OUTLET
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '06:00:00' AND '10:59:00' THEN 'Klaten'
-        WHEN live_start_time BETWEEN '18:00:00' AND '23:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'VIDYA OUTLET FILTERED'
@@ -474,4 +474,11 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ALKES' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ALKES FILTERED'
+
+    -- BELLAGIO
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='BELLAGIO' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'BELLAGIO FILTERED'
 END;
