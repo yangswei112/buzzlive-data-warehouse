@@ -7,8 +7,8 @@ import pyodbc
 connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # SET UP THE FILE PATH
-shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/apr-week3/'
-tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/apr-week3/'
+shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/apr-week3-2/'
+# tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/apr-week3/'
 result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
 # SET UP DATE RANGE
@@ -17,7 +17,7 @@ result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datase
 
 # TRANSFORM DATA
 shopee_transform_action(shopee_report_path, result_path)
-tiktok_transform_action(tiktok_report_path, result_path)
+# tiktok_transform_action(tiktok_report_path, result_path)
 
 # # LOAD DATA TO DATABASE
 # load_to_db(connection_string, start_date, end_date)

@@ -92,12 +92,12 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'EVERBEST FILTERED'
 
-     -- Pafle
+     -- Paffle
     UPDATE silver.tiktok_livestreaming
     SET Studio = 'Klaten'
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Tiktok')
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Paffle' AND platform='Tiktok')
     AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'PAFLE FILTERED'
+    PRINT 'PAFFLE FILTERED'
 
 END;
 
