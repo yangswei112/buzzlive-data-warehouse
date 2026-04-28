@@ -217,6 +217,13 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'WUND+ FILTERED'
 
+     -- PAFLE
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'PAFLE FILTERED'
+
     -- reniafrianishop
     UPDATE silver.shopee_livestreaming
     SET Studio = CASE 
