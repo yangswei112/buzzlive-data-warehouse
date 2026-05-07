@@ -440,7 +440,7 @@ BEGIN
     -- SMITHMENSUPLAY
     UPDATE silver.shopee_livestreaming
     SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SMITHMENSUPLAY' AND platform='Shopee')
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SMITHMENSUPPLY' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'SMITHMENSUPLAY FILTERED'
 
