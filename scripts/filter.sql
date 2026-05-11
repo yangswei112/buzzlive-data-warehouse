@@ -16,7 +16,7 @@ BEGIN
     UPDATE silver.tiktok_livestreaming
     SET Studio = CASE 
         WHEN live_start_time BETWEEN '07:00:00' AND '09:59:00' THEN 'Klaten'
-        WHEN live_start_time BETWEEN '19:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '19:00:00' AND '22:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Deltomed' AND platform='Tiktok')
@@ -118,7 +118,7 @@ BEGIN
     SET Studio = CASE 
         WHEN live_start_time BETWEEN '07:00:00' AND '09:59:00' THEN 'Klaten'
         WHEN live_start_time BETWEEN '12:00:00' AND '13:59:00' THEN 'Klaten'
-        WHEN live_start_time BETWEEN '17:00:00' AND '21:59:00' THEN 'Klaten'
+        WHEN live_start_time BETWEEN '17:00:00' AND '22:59:00' THEN 'Klaten'
         ELSE 'Client' 
     END
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Deltomed' AND platform='Shopee')
