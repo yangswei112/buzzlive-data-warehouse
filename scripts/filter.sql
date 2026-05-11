@@ -221,10 +221,7 @@ BEGIN
 
     -- reniafrianishop
     UPDATE silver.shopee_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '06:00:00' AND '09:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
+    SET Studio = 'Klaten'
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='reniafrianishop' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'RENIAFRIANISHOP FILTERED'
@@ -497,4 +494,18 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='BELLAGIO' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'BELLAGIO FILTERED'
+
+    -- XITAO
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='XITAO' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'XITAO FILTERED'
+
+    -- OOUWA
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='OOUWA' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'OOUWA FILTERED'
 END;
