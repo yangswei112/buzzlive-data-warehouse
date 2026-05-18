@@ -508,4 +508,18 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='OOUWA' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'OOUWA FILTERED'
+
+    -- SENSWELL
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SENSWELL' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'SENSWELL FILTERED'
+
+    -- HIRAKIYA
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='HIRAKIYA' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'HIRAKIYA FILTERED'
 END;
