@@ -145,10 +145,9 @@ def tiktok_transform_vers1(trial):
         drop_col_tiktok1 = ['Nama panggilan', 'Produk yang ditambahkan',
                             'Produk Terjual',
                             'GMV tidak langsung dari LIVE (Rp)','Pemesanan',
-                            'Produk yang terjual dari LIVE','Produk yang terjual dari LIVE secara tidak langsung','CTR'
+                            'Produk yang terjual dari LIVE','Produk yang terjual dari LIVE secara tidak langsung'
                             ]
         tiktok1_rename_columns = {'ID Kreator': 'CreatorId',
-                                  'CTOR': 'CTOR',
                                   'Klik Produk': 'ProductClicks',
                                   'Produk Dilihat': 'ProductImpressions',
                                   'Live Dibagikan': 'Shares',
