@@ -206,6 +206,40 @@ def tiktok_transform_vers1(trial):
     except Exception as e:
         print('ERROR OCCURED DURING STEP 5 PROCESS. THE ERROR IS: ', e)
 
+    # STEP 6 - re-arrange the column order
+    try:
+        print('STEP 6 PROCESS STARTS')
+        tiktok_column_order = ['CreatorId', 'LivestreamCreator',
+                                'StartTime', 
+                                'Duration', 
+                                'live_direct_gmv',
+                                'OrdersPaidFor', 
+                                'ItemsSold', 
+                                'Customers', 
+                                'live_avg_price', 
+                                'CTOR',
+                                'live_gross_revenue', 
+                                'Viewers', 
+                                'Views', 
+                                'AvgViewDuration', 
+                                'Comments',
+                                'Shares', 
+                                'Likes', 
+                                'NewFollowers', 
+                                'ProductImpressions',
+                                'ProductClicks', 
+                                'CTR', 
+                                'live_start_date', 
+                                'live_start_time',
+                                'live_duration', 
+                                'live_ctor', 
+                                'live_ctr',
+                                'Studio']
+        trial = trial[tiktok_column_order]
+        print('STEP 6 PROCESS DONE, ALL STEPS DONE')
+    except Exception as e:
+        print('ERROR OCCURED DURING STEP 6 PROCESS. THE ERROR IS: ', e)
+
     return trial
 
 
