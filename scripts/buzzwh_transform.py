@@ -143,9 +143,12 @@ def tiktok_transform_vers1(trial):
     try:
         print('STEP 1 PROCESS STARTS')
         drop_col_tiktok1 = ['Nama panggilan', 'Produk yang ditambahkan',
-                            'Produk Terjual', 'Pesanan SKU yang dibuat']
+                            'Produk Terjual',
+                            'GMV tidak langsung dari LIVE (Rp)','Pemesanan',
+                            'Produk yang terjual dari LIVE','Produk yang terjual dari LIVE secara tidak langsung','CTR'
+                            ]
         tiktok1_rename_columns = {'ID Kreator': 'CreatorId',
-                                  'Rasio pesanan per klik (LIVE)': 'CTOR',
+                                  'CTOR': 'CTOR',
                                   'Klik Produk': 'ProductClicks',
                                   'Produk Dilihat': 'ProductImpressions',
                                   'Live Dibagikan': 'Shares',
@@ -155,12 +158,12 @@ def tiktok_transform_vers1(trial):
                                   'Pengikut baru (Video kreator)': 'NewFollowers',
                                   'Penonton': 'Viewers',
                                   'Live Stream Dilihat': 'Views',
-                                  'Pesanan SKU dari LIVE': 'OrdersPaidFor',
+                                  'Pesanan Dibayar': 'OrdersPaidFor',
                                   'Harga Rata-Rata (Rp)': 'live_avg_price',
                                   'Pembeli unik': 'Customers',
-                                  'Produk yang terjual dari LIVE': 'ItemsSold',
-                                  'Nilai bruto barang dagangan dari LIVE (Rp)': 'live_direct_gmv',
-                                  'GMV yang didapat dari LIVE (Rp)': 'live_gross_revenue',
+                                  'Produk yang terjual melalui LIVE': 'ItemsSold',
+                                  'GMV dari LIVE (Rp)': 'live_direct_gmv',
+                                  'GMV LIVE (Rp)': 'live_gross_revenue',
                                   'Durasi': 'Duration',
                                   'Waktu Live': 'StartTime',
                                   'Kreator': 'LivestreamCreator'}
