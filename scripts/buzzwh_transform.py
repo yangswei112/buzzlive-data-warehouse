@@ -5,6 +5,8 @@ import emoji
 import os
 import pyodbc
 from google.cloud import bigquery
+import gspread
+from gspread_dataframe import set_with_dataframe
 
 
 def shopee_transform(trial):
@@ -550,3 +552,42 @@ def load_to_bigquery(df: pd.DataFrame, table_id: str):
     job = client.load_table_from_dataframe(df, table_id)
     job.result()  # Wait for the job to complete.
     print(f"Loaded {job.output_rows} rows into {table_id}.")
+
+def get_gold_silver_data(connection_string: str, start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    to get gold silver data from database
+    """
+    conn = pyodbc.connect(connection_string)
+    query_gold_silver_shopee = f"""
+            SELECT * FROM gold.WeeklyShopeeLive
+            WHERE Date BETWEEN '{start_date}' AND '{end_date}'
+            AND Studio = 'Klaten'
+            ORDER BY Brand, Date, StartLive ASC;
+    """
+    query_gold_silver_tiktok = f"""
+            SELECT * FROM gold.WeeklyTiktokLive
+            WHERE Date BETWEEN '{start_date}' AND '{end_date}'
+            AND Studio = 'Klaten'
+            ORDER BY Brand, Date, StartLive ASC;
+    """
+
+    df_gold_silver_shopee = pd.read_sql_query(query_gold_silver_shopee, conn)
+    df_gold_silver_tiktok = pd.read_sql_query(query_gold_silver_tiktok, conn)
+    df_merged_gold_silver = pd.concat([df_gold_silver_shopee, df_gold_silver_tiktok])
+    
+    conn.close()
+
+    print('gold silver data has been retrieved from database')
+
+    return df_merged_gold_silver
+
+def load_to_google_sheets(df: pd.DataFrame, spreadsheet_name: str, worksheet_name: str):
+    """
+    to load dataframe to google sheets
+    """
+    gc = gspread.service_account(filename="C:\\Users\\ASUS\\Documents\\Data Engineering\\BuzzliveWarehouse\\gcp-keys\\hashent-410002-1f512c3626a9.json")
+    spreadsheet = gc.open(spreadsheet_name)
+    worksheet = spreadsheet.worksheet(worksheet_name)
+    worksheet.clear()  # Clear existing content in the worksheet
+    set_with_dataframe(worksheet, df, row=1, col=1)  # Write the DataFrame to the worksheet
+    print("DataFrame has been loaded to Google Sheets.")
