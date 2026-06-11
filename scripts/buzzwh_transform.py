@@ -591,3 +591,45 @@ def load_to_google_sheets(df: pd.DataFrame, spreadsheet_name: str, worksheet_nam
     worksheet.clear()  # Clear existing content in the worksheet
     set_with_dataframe(worksheet, df, row=1, col=1)  # Write the DataFrame to the worksheet
     print("DataFrame has been loaded to Google Sheets.")
+
+def get_silver_data_shopee(connection_string: str, start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    to get silver shopee data from database
+    """
+    conn = pyodbc.connect(connection_string)
+    query_silver_shopee = f"""
+            SELECT * FROM silver.shopee_livestreaming
+            WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}'
+            AND UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='{brand_name}' AND platform='Shopee')
+            AND Studio = 'Klaten'
+            ORDER BY StartTime;
+    """
+
+    df_silver_shopee = pd.read_sql_query(query_silver_shopee, conn)
+    
+    conn.close()
+
+    print('silver shopee data has been retrieved from database')
+
+    return df_silver_shopee
+
+def get_silver_data_tiktok(connection_string: str, start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    to get silver tiktok data from database
+    """
+    conn = pyodbc.connect(connection_string)
+    query_silver_tiktok = f"""
+            SELECT * FROM silver.tiktok_livestreaming
+            WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}'
+            AND CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='{brand_name}' AND platform='Tiktok')
+            AND Studio = 'Klaten'
+            ORDER BY StartTime;
+    """
+
+    df_silver_tiktok = pd.read_sql_query(query_silver_tiktok, conn)
+    
+    conn.close()
+
+    print('silver tiktok data has been retrieved from database')
+
+    return df_silver_tiktok
