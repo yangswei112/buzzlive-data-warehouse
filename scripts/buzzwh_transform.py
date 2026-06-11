@@ -633,3 +633,22 @@ def get_silver_data_tiktok(connection_string: str, start_date: str, end_date: st
     print('silver tiktok data has been retrieved from database')
 
     return df_silver_tiktok
+
+# Database backups
+def backup_database(connection_string: str, monthyear: str):
+    """
+    to backup database to a specified path
+    """
+    conn = pyodbc.connect(connection_string)
+    cursor = conn.cursor()
+    query_backup = f"""
+                BACKUP DATABASE BuzzliveWarehouse
+                TO DISK = 'C:\SQLBackups\BuzzliveWarehouse-{monthyear}.bak'
+                WITH FORMAT,
+                MEDIANAME = 'SQLServerBackups',
+                NAME = 'Full Backup of BuzzliveWarehouse';
+                    """
+    cursor.execute(query_backup)
+    conn.commit()
+    cursor.close()
+    print('database has been backed up')
