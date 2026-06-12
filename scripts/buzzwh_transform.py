@@ -652,3 +652,25 @@ def backup_database(connection_string: str, monthyear: str):
     conn.commit()
     cursor.close()
     print('database has been backed up')
+
+def get_shopee_seller_data(connection_string: str, start_date: str, end_date: str) -> pd.DataFrame:
+    """
+    to get shopee seller data from database
+    """
+    conn = pyodbc.connect(connection_string)
+    query_shopee_seller = f"""
+            SELECT * FROM silver.shopee_livestreaming
+            LEFT JOIN silver.brand_info ON silver.shopee_livestreaming.UserId = silver.brand_info.brand_id
+            WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}'
+            AND Studio = 'Klaten'
+            AND brand_category = 'Shopee SMS'
+            ORDER BY brand_name, live_start_date, live_start_time;
+    """
+
+    df_shopee_seller = pd.read_sql_query(query_shopee_seller, conn)
+    
+    conn.close()
+
+    print('shopee seller data has been retrieved from database')
+
+    return df_shopee_seller
