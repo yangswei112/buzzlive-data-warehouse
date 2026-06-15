@@ -96,6 +96,16 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'PAFFLE FILTERED'
 
+     -- Skinflair
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = CASE 
+        WHEN live_start_time BETWEEN '16:00:00' AND '21:59:00' THEN 'Klaten'
+        ELSE 'Client' 
+    END
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Skinflair' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'SKINFLAIR FILTERED'
+
 END;
 
 GO
