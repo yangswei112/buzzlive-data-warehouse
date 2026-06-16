@@ -508,8 +508,8 @@ def load_to_db(connection_string: str, start_date: str, end_date: str):
             EXEC silver.load_info;
             EXEC silver.load_tiktok;
             EXEC silver.load_shopee;
-            EXEC silver.filter_brand_tiktok @start_date={start_date}, @end_date={end_date};
-            EXEC silver.filter_brand_shopee @start_date={start_date}, @end_date={end_date};
+            EXEC silver.filter_brand_tiktok @start_date='{start_date}', @end_date='{end_date}';
+            EXEC silver.filter_brand_shopee @start_date='{start_date}', @end_date='{end_date}';
         """
     cursor.execute(query)
     conn.commit()
