@@ -495,7 +495,7 @@ def update_tiktok_sales(tiktok_path: str, connection_db: str):
     print("ALL THE TIKTOK SALES DATA HAVE BEEN UPDATED ON DATABASE")
 
 
-def load_to_db(connection_string: str, start_date: str, end_date: str):
+def load_to_db_filter(connection_string: str, start_date: str, end_date: str):
     """
     to load shopee & tiktok data to database
     """
