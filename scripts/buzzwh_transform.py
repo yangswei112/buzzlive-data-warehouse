@@ -144,32 +144,91 @@ def tiktok_transform_vers1(trial):
     # STEP 1 - matching all the column names
     try:
         print('STEP 1 PROCESS STARTS')
-        drop_col_tiktok1 = ['Nama panggilan', 'Produk yang ditambahkan',
-                            'Produk Terjual',
-                            'GMV tidak langsung dari LIVE (Rp)','Pemesanan',
-                            'Produk yang terjual dari LIVE','Produk yang terjual dari LIVE secara tidak langsung'
-                            ]
-        tiktok1_rename_columns = {'ID Kreator': 'CreatorId',
-                                  'Klik Produk': 'ProductClicks',
-                                  'Produk Dilihat': 'ProductImpressions',
-                                  'Live Dibagikan': 'Shares',
-                                  'Komentar': 'Comments',
-                                  'Suka pada LIVE': 'Likes',
-                                  'Durasi menonton rata-rata (Siaran LIVE)': 'AvgViewDuration',
-                                  'Pengikut baru (Video kreator)': 'NewFollowers',
-                                  'Penonton': 'Viewers',
-                                  'Live Stream Dilihat': 'Views',
-                                  'Pesanan Dibayar': 'OrdersPaidFor',
-                                  'Harga Rata-Rata (Rp)': 'live_avg_price',
-                                  'Pembeli unik': 'Customers',
-                                  'Produk yang terjual melalui LIVE': 'ItemsSold',
-                                  'GMV dari LIVE (Rp)': 'live_direct_gmv',
-                                  'GMV LIVE (Rp)': 'live_gross_revenue',
-                                  'Durasi': 'Duration',
-                                  'Waktu Live': 'StartTime',
-                                  'Kreator': 'LivestreamCreator'}
-        trial = trial.drop(drop_col_tiktok1, axis=1)
-        trial = trial.rename(columns=tiktok1_rename_columns)
+        eng = 'Nickname'
+        ind = 'Nama panggilan'
+        if eng in trial.columns:
+            sgd = 'LIVE indirect GMV (S$)' 
+            if sgd in trial.columns:
+                drop_col_tiktok1 = ['Nickname', 'Products added',
+                                    'Different Products Sold',
+                                    'LIVE indirect GMV (S$)','Orders created',
+                                    'LIVE items sold','LIVE indirect items sold'
+                                    ]
+                tiktok1_rename_columns = {'Creator ID': 'CreatorId',
+                                        'Product Clicks': 'ProductClicks',
+                                        'Product Impressions': 'ProductImpressions',
+                                        'Shares': 'Shares',
+                                        'Comments': 'Comments',
+                                        'LIVE likes': 'Likes',
+                                        'Average viewing duration (LIVE streams)': 'AvgViewDuration',
+                                        'New followers (Creator video)': 'NewFollowers',
+                                        'Viewers': 'Viewers',
+                                        'Views': 'Views',
+                                        'Orders Paid': 'OrdersPaidFor',
+                                        'Average Price (S$)': 'live_avg_price',
+                                        'Unique customers': 'Customers',
+                                        'LIVE-attributed items sold': 'ItemsSold',
+                                        'LIVE-attributed GMV (S$)': 'live_direct_gmv',
+                                        'LIVE-attributed GMV (S$)': 'live_gross_revenue',
+                                        'Duration': 'Duration',
+                                        'Launched Time': 'StartTime',
+                                        'Creator': 'LivestreamCreator'}
+                trial = trial.drop(drop_col_tiktok1, axis=1)
+                trial = trial.rename(columns=tiktok1_rename_columns)
+            else:
+                drop_col_tiktok1 = ['Nickname', 'Products added',
+                                    'Different Products Sold',
+                                    'LIVE indirect GMV (Rp)','Orders created',
+                                    'LIVE items sold','LIVE indirect items sold'
+                                    ]
+                tiktok1_rename_columns = {'Creator ID': 'CreatorId',
+                                        'Product Clicks': 'ProductClicks',
+                                        'Product Impressions': 'ProductImpressions',
+                                        'Shares': 'Shares',
+                                        'Comments': 'Comments',
+                                        'LIVE likes': 'Likes',
+                                        'Average viewing duration (LIVE streams)': 'AvgViewDuration',
+                                        'New followers (Creator video)': 'NewFollowers',
+                                        'Viewers': 'Viewers',
+                                        'Views': 'Views',
+                                        'Orders Paid': 'OrdersPaidFor',
+                                        'Average Price (Rp)': 'live_avg_price',
+                                        'Unique customers': 'Customers',
+                                        'LIVE-attributed items sold': 'ItemsSold',
+                                        'LIVE-attributed GMV (Rp)': 'live_direct_gmv',
+                                        'LIVE-attributed GMV (Rp)': 'live_gross_revenue',
+                                        'Duration': 'Duration',
+                                        'Launched Time': 'StartTime',
+                                        'Creator': 'LivestreamCreator'}
+                trial = trial.drop(drop_col_tiktok1, axis=1)
+                trial = trial.rename(columns=tiktok1_rename_columns)
+        else:
+            drop_col_tiktok1 = ['Nama panggilan', 'Produk yang ditambahkan',
+                                'Produk Terjual',
+                                'GMV tidak langsung dari LIVE (Rp)','Pemesanan',
+                                'Produk yang terjual dari LIVE','Produk yang terjual dari LIVE secara tidak langsung'
+                                ]
+            tiktok1_rename_columns = {'ID Kreator': 'CreatorId',
+                                    'Klik Produk': 'ProductClicks',
+                                    'Produk Dilihat': 'ProductImpressions',
+                                    'Live Dibagikan': 'Shares',
+                                    'Komentar': 'Comments',
+                                    'Suka pada LIVE': 'Likes',
+                                    'Durasi menonton rata-rata (Siaran LIVE)': 'AvgViewDuration',
+                                    'Pengikut baru (Video kreator)': 'NewFollowers',
+                                    'Penonton': 'Viewers',
+                                    'Live Stream Dilihat': 'Views',
+                                    'Pesanan Dibayar': 'OrdersPaidFor',
+                                    'Harga Rata-Rata (Rp)': 'live_avg_price',
+                                    'Pembeli unik': 'Customers',
+                                    'Produk yang terjual melalui LIVE': 'ItemsSold',
+                                    'GMV dari LIVE (Rp)': 'live_direct_gmv',
+                                    'GMV LIVE (Rp)': 'live_gross_revenue',
+                                    'Durasi': 'Duration',
+                                    'Waktu Live': 'StartTime',
+                                    'Kreator': 'LivestreamCreator'}
+            trial = trial.drop(drop_col_tiktok1, axis=1)
+            trial = trial.rename(columns=tiktok1_rename_columns)
         print('STEP 1 PROCESS DONE, CONTINUE TO NEXT STEP')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 1 PROCESS. THE ERROR IS: ', e)
