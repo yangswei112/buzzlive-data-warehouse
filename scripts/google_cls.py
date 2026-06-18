@@ -7,7 +7,7 @@ import pandas as pd
 class BigQueryWarehouse:
     PROJECT_ID = 'hashent-410002'
     DATASET_ID = 'buzzwh'
-    KEY_PATH = 'gcp-keys\\hashent-410002-3e7f0c1d5b4e.json'
+    KEY_PATH = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/gcp-keys/hashent-410002-3e7f0c1d5b4e.json'
 
     def __init__(self):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = BigQueryWarehouse.KEY_PATH
@@ -24,7 +24,7 @@ class BigQueryWarehouse:
 
 class GoogleSheetsConn:
     def __init__(self):
-        self.gc = gspread.service_account(filename='gcp-keys\\hashent-410002-3e7f0c1d5b4e.json')
+        self.gc = gspread.service_account(filename='C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/gcp-keys/hashent-410002-3e7f0c1d5b4e.json')
         print("Connected to Google Sheets API")
     
     def load_dataframe_to_sheet(self, df: pd.DataFrame, spreadsheet_name: str, worksheet_name: str):
