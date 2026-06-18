@@ -168,7 +168,7 @@ def tiktok_transform_vers1(trial):
                                         'Average Price (S$)': 'live_avg_price',
                                         'Unique customers': 'Customers',
                                         'LIVE-attributed items sold': 'ItemsSold',
-                                        'LIVE-attributed GMV (S$)': 'live_direct_gmv',
+                                        'LIVE GMV (S$)': 'live_direct_gmv',
                                         'LIVE-attributed GMV (S$)': 'live_gross_revenue',
                                         'Duration': 'Duration',
                                         'Launched Time': 'StartTime',
