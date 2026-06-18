@@ -16,7 +16,7 @@ class BigQueryWarehouse:
         print(f"Connected to BigQuery project: {BigQueryWarehouse.PROJECT_ID}, dataset: {BigQueryWarehouse.DATASET_ID}")
 
     def load_dataframe_to_bigquery(self, df: pd.DataFrame):
-        table_id = f"{self.dataset_ref}.raw_data_livestreaming"
+        table_id = f"{self.dataset_ref}.example"
         job = self.client.load_table_from_dataframe(df, table_id)
         job.result()  # Wait for the job to complete.
         print(f"Loaded {job.output_rows} rows into {table_id}.")
