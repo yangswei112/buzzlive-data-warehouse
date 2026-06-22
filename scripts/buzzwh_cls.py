@@ -85,8 +85,8 @@ class BuzzliveWarehouse:
             SELECT * FROM silver.shopee_livestreaming
             WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}'
             AND Studio = 'Klaten'
-            AND Brand = '{brand_name}'
-            ORDER BY Brand, live_start_date, live_start ASC;
+            AND brand_name = '{brand_name}'
+            ORDER BY brand_name, live_start_date, live_start ASC;
             """
         df_silver_shopee = pd.read_sql_query(query_silver_shopee, self.conn)
 
@@ -102,8 +102,8 @@ class BuzzliveWarehouse:
             SELECT * FROM silver.tiktok_livestreaming
             WHERE live_start_date BETWEEN '{start_date}' AND '{end_date}'
             AND Studio = 'Klaten'
-            AND Brand = '{brand_name}'
-            ORDER BY Brand, live_start_date, StartTime ASC;
+            AND brand_name = '{brand_name}'
+            ORDER BY brand_name, live_start_date, StartTime ASC;
             """
         df_silver_tiktok = pd.read_sql_query(query_silver_tiktok, self.conn)
 
