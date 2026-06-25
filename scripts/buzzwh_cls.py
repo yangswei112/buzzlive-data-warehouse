@@ -12,23 +12,42 @@ class BuzzliveWarehouse:
         self.conn = pyodbc.connect(self.connection_string)
         self.cursor = self.conn.cursor()
     
-    def load_to_db(self, start_date: str, end_date:str):
-        """"
-        to load shopee & tiktok data to database
+    def load_to_db(self, start_date: str, end_date: str):
         """
-        query = f"""
-            EXEC bronze.load_info;
-            EXEC bronze.load_tiktok;
-            EXEC bronze.load_shopee;
-            EXEC silver.load_info;
-            EXEC silver.load_tiktok;
-            EXEC silver.load_shopee;
-            EXEC silver.filter_brand_tiktok @start_date='{start_date}', @end_date='{end_date}';
-            EXEC silver.filter_brand_shopee @start_date='{start_date}', @end_date='{end_date}';
+        To load shopee & tiktok data to database using a Medallion architecture.
         """
-        self.cursor.execute(query)
-        self.conn.commit()
-        print('data has been loaded to database')
+        # 1. Define independent, static stored procedures
+        procedures_no_params = [
+            "EXEC bronze.load_info;",
+            "EXEC bronze.load_tiktok;",
+            "EXEC bronze.load_shopee;",
+            "EXEC silver.load_info;",
+            "EXEC silver.load_tiktok;",
+            "EXEC silver.load_shopee;"
+        ]
+        
+        try:
+            # 2. Execute procedures that don't need parameters
+            for proc in procedures_no_params:
+                self.cursor.execute(proc)
+            
+            # 3. Execute parameterized procedures safely (Assuming standard pyodbc/SQL Server style '?')
+            # Note: If using pymssql, replace '?' with '%s'
+            silver_tiktok_query = "EXEC silver.filter_brand_tiktok @start_date = ?, @end_date = ?;"
+            self.cursor.execute(silver_tiktok_query, (start_date, end_date))
+            
+            silver_shopee_query = "EXEC silver.filter_brand_shopee @start_date = ?, @end_date = ?;"
+            self.cursor.execute(silver_shopee_query, (start_date, end_date))
+            
+            # 4. Commit all operations only if EVERYTHING succeeded
+            self.conn.commit()
+            print('Data has been successfully loaded to database.')
+            
+        except Exception as e:
+            # 5. Rollback changes if anything goes wrong to prevent partial data corruption
+            self.conn.rollback()
+            print(f"Database error encountered: {e}")
+            raise e
     
     def get_raw_data_from_db(self, start_date: str, end_date: str) -> pd.DataFrame:
         """
