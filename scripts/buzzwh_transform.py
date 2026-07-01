@@ -405,7 +405,8 @@ def shopee_transform_action(shopee_path: str, result_path: str):
     print('SHOPEE TRANSFORMING PROCESS DONE')
 
     ready_to_db_shopee_silver = pd.concat(transformed_shopee_lst)
-    ready_to_db_shopee_silver.to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
+    # ready_to_db_shopee_silver.to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
+    ready_to_db_shopee_silver[ready_to_db_shopee_silver['live_start_date'] >= datetime(2026, 6, 21).date()].to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
 
     shopee_bronze_db = ['DataPeriod', 'UserId', 'No', 'LivestreamName', 'StartTime', 'Duration',
                         'EngagedViewers', 'Comments', 'ATC', 'AvgViewingDuration', 'Viewers',
@@ -414,7 +415,8 @@ def shopee_transform_action(shopee_path: str, result_path: str):
                         'live_host_id', 'live_start', 'live_start_date','live_viewers']
 
     ready_to_db_shopee_bronze = ready_to_db_shopee_silver[shopee_bronze_db]
-    ready_to_db_shopee_silver[shopee_bronze_db].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
+    # ready_to_db_shopee_silver[shopee_bronze_db].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
+    ready_to_db_shopee_silver[shopee_bronze_db][ready_to_db_shopee_silver['live_start_date'] >= datetime(2026, 6, 21).date()].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
 
     print('all the shopee files are ready to be loaded to database')
     print('the shape of new shopee bronze data: ', ready_to_db_shopee_bronze.shape)
@@ -443,7 +445,8 @@ def tiktok_transform_action(tiktok_path: str, result_path: str):
     print('all the tiktok files have been transformed')
 
     ready_to_db_tiktok = pd.concat(transformed_tiktok_lst)
-    ready_to_db_tiktok.to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
+    # ready_to_db_tiktok.to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
+    ready_to_db_tiktok[ready_to_db_tiktok['live_start_date'] >= datetime(2026, 6, 21).date()].to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
 
     print('all the tiktok files are ready to be loaded to database')
     print('the shape of new tiktok data: ', ready_to_db_tiktok.shape)
