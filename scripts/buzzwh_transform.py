@@ -446,7 +446,7 @@ def tiktok_transform_action(tiktok_path: str, result_path: str):
 
     ready_to_db_tiktok = pd.concat(transformed_tiktok_lst)
     # ready_to_db_tiktok.to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
-    ready_to_db_tiktok[ready_to_db_tiktok['live_start_date'] > datetime(2026, 6, 21).date()].to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
+    ready_to_db_tiktok[ready_to_db_tiktok['live_start_date'] > datetime(2026, 6, 30).date()].to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
 
     print('all the tiktok files are ready to be loaded to database')
     print('the shape of new tiktok data: ', ready_to_db_tiktok.shape)
