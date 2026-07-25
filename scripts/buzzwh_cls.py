@@ -1,6 +1,6 @@
 import pandas as pd
 import pyodbc
-from buzzwh_transform import shopee_transform, tiktok_transform_vers1
+from utils.buzzwh_transform import shopee_transform, tiktok_transform_vers1
 import os
 
 class BuzzliveWarehouse:
