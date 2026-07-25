@@ -3,7 +3,7 @@ from google.cloud import bigquery
 import pandas as pd
 from config.settings import GOOGLE_APPLICATION_CREDENTIALS
 
-class BigQueryWarehouse:
+class BigQueryConn:
     def __init__(self, project_id = 'hashent-410002', dataset_id = 'buzzwh'):
         os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = GOOGLE_APPLICATION_CREDENTIALS
         self.project_id = project_id
