@@ -1,6 +1,6 @@
 import gspread
 from gspread_dataframe import set_with_dataframe
-import os
+import pandas as pd
 from config.settings import GOOGLE_APPLICATION_CREDENTIALS
 
 class GoogleSheetsConn:
