@@ -5,3 +5,5 @@ test.sql
 .env
 database.py
 google.py
+credentials/
+datasets/
