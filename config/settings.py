@@ -1,7 +1,7 @@
-from dotenv import load_env
+from dotenv import load_dotenv
 import os
 
-load_env()
+load_dotenv()
 
 DB_SERVER = os.getenv('DB_SERVER')
 DB_USERNAME = os.getenv('DB_USERNAME')
