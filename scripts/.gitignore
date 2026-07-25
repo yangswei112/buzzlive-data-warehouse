@@ -2,4 +2,6 @@ trial_and_test.ipynb
 brand_table.csv
 test.sql
 *.json
-project
+.env
+database.py
+google.py
