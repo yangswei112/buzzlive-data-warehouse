@@ -11,6 +11,7 @@ CREATE PROCEDURE silver.filter_brand_tiktok
     @end_date VARCHAR(10)
 AS
 BEGIN
+    SET NOCOUNT ON;
     PRINT 'FILTER TIKTOK LIVE STARTED'
     -- DELTOMED
     UPDATE silver.tiktok_livestreaming
@@ -119,6 +120,7 @@ CREATE PROCEDURE silver.filter_brand_shopee
     @end_date VARCHAR(10)
 AS
 BEGIN
+    SET NOCOUNT ON;
     PRINT 'FILTER SHOPEE LIVE STARTED'
     -- DELTOMED
     UPDATE silver.shopee_livestreaming
