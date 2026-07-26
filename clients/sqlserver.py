@@ -20,7 +20,7 @@ class SQLServerConnection:
         username: str | None = None,
         password: str | None = None,
         driver: str = "ODBC Driver 18 for SQL Server",
-        port: int = 1433,
+        port: int | None = None,  # Set to None by default so SQLEXPRESS isn't forced onto 1433
         trusted_connection: bool = False,
         trust_server_certificate: bool = True,
         fast_executemany: bool = True,
@@ -39,19 +39,21 @@ class SQLServerConnection:
         self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, autocommit=False)
 
     def _build_connection_string(self) -> str:
-        """Builds a formatted ODBC connection URL for SQLAlchemy."""
-        params = f"DRIVER={self.driver};SERVER={self.server},{self.port};DATABASE={self.database};"
+        """Builds a formatted ODBC connection URL for SQLAlchemy matching the working standalone format."""
+        # Include port only if explicitly provided (e.g., standard SQL Server instances)
+        server_str = f"{self.server},{self.port}" if self.port else self.server
+
+        # Wrap driver name in curly braces as required by pyodbc ODBC specs
+        params = f"DRIVER={{{self.driver}}};SERVER={server_str};DATABASE={self.database};"
 
         if self.trusted_connection:
             params += "Trusted_Connection=yes;"
         else:
             params += f"UID={self.username};PWD={self.password};"
 
-        # ODBC Driver 18 requires SSL settings configuration
-        if "18" in self.driver and self.trust_server_certificate:
+        if self.trust_server_certificate:
             params += "TrustServerCertificate=yes;"
 
-        # URL encode raw connection parameters to safely handle special characters in passwords
         encoded_params = urllib.parse.quote_plus(params)
         return f"mssql+pyodbc:///?odbc_connect={encoded_params}"
 
@@ -60,18 +62,14 @@ class SQLServerConnection:
         connection_url = self._build_connection_string()
         return create_engine(
             connection_url,
-            fast_executemany=self.fast_executemany,  # Speeds up batch inserts with pandas/SQLAlchemy
-            pool_pre_ping=True,                     # Verifies connection health before usage
+            fast_executemany=self.fast_executemany,
+            pool_pre_ping=True,
             pool_size=10,
             max_overflow=20,
         )
 
     @contextmanager
     def get_session(self) -> Generator[Session, None, None]:
-        """
-        Context manager for handling SQLAlchemy ORM Sessions safely.
-        Automatically handles commit, rollback, and closing.
-        """
         session: Session = self.SessionLocal()
         try:
             yield session
@@ -84,27 +82,19 @@ class SQLServerConnection:
 
     @contextmanager
     def get_connection(self):
-        """Context manager for raw SQLAlchemy Core connections."""
         with self.engine.connect() as connection:
             yield connection
 
     def dispose(self):
-        """Closes all underlying connection pools."""
         self.engine.dispose()
 
     def test_connection(self) -> bool:
-        """
-        Tests the database connection by executing a lightweight query.
-        Returns True if successful, raises/prints an error if failed.
-        """
         try:
             with self.get_connection() as conn:
-                # Execute a simple lightweight query
-                result = conn.execute(text("SELECT 1;")).scalar()
-                if result == 1:
-                    print("✅ Database connection successful!")
-                    return True
-                return False
+                result = conn.execute(text("SELECT @@VERSION;")).scalar()
+                print("✅ Database connection successful!")
+                print(f"Connected to Version:\n{result}")
+                return True
         except (OperationalError, DBAPIError) as e:
             print(f"❌ Connection failed: {e}")
             return False
