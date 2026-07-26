@@ -3,8 +3,8 @@ from scripts.monthly_pipeline import *
 
 # WEEKLY REPORT PIPELINE
 # SET UP DATE RANGE
-start_date_weekly = '2024-03-01'
-end_date_weekly = '2024-03-31'
+start_date_weekly = '2026-07-13'
+end_date_weekly = '2026-07-26'
 
 extract()
 transform()
@@ -16,11 +16,11 @@ load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_d
 
 # MONTHLY REPORT PIPELINE
 # SET UP DATE RANGE
-start_date_monthly = '2024-03-01'
-end_date_monthly = '2024-03-31'
-update_monthly()
-load_shopee_seller_to_sheet(start_date_monthly=start_date_monthly, end_date_monthly=end_date_monthly)
-backup_database()
+# start_date_monthly = '2024-03-01'
+# end_date_monthly = '2024-03-31'
+# update_monthly()
+# load_shopee_seller_to_sheet(start_date_monthly=start_date_monthly, end_date_monthly=end_date_monthly)
+# backup_database()
 
 
 
