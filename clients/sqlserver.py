@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.exc import OperationalError, DBAPIError
 from config.settings import DB_SERVER, DB_USERNAME, DB_PASSWORD
 
 
@@ -63,6 +64,24 @@ class SQLServerConnection:
             pool_size=10,
             max_overflow=20,
         )
+    def test_connection(self) -> bool:
+        """
+        Tests the database connection by executing a lightweight query.
+        Returns True if successful, raises/prints an error if failed.
+        """
+        try:
+            with self.get_connection() as conn:
+                # Execute a simple lightweight query
+                result = conn.execute(text("SELECT 1;")).scalar()
+                if result == 1:
+                    print("✅ Database connection successful!")
+                    return True
+        except (OperationalError, DBAPIError) as e:
+            print(f"❌ Connection failed: {e}")
+            return False
+        except Exception as e:
+            print(f"❌ Unexpected error during connection test: {e}")
+            return False
 
     @contextmanager
     def get_session(self) -> Generator[Session, None, None]:
