@@ -1,5 +1,5 @@
 from utils.buzzwh_transform import *
-from buzzwh import *
+from scripts.buzzwh import *
 from clients.bigquery import BigQueryConn
 from clients.google_sheets import GoogleSheetsConn
 
@@ -25,7 +25,7 @@ def transform():
     tiktok_transform_action(extract()[1], result_path)
 
  # LOAD
-def load_to_db(start_date_weekly, end_date_weekly):
+def load_to_database(start_date_weekly, end_date_weekly):
     """
     to load the transformed data to the database
     """

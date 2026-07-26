@@ -4,7 +4,7 @@ from utils.buzzwh_transform import shopee_transform, tiktok_transform_vers1
 import pandas as pd
 import os
 
-ss = SQLServerConnection()
+ss = SQLServerConnection(database='BuzzliveWarehouse')
 
 def load_to_db(start_date, end_date):
     procedures_no_params = [
