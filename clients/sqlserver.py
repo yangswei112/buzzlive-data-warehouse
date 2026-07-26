@@ -7,8 +7,116 @@ from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.exc import OperationalError, DBAPIError
 from config.settings import DB_SERVER, DB_USERNAME, DB_PASSWORD
 
+import urllib.parse
+from typing import Optional, Any
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import Engine, Connection
+from sqlalchemy.exc import SQLAlchemyError
+
 
 class SQLServerConnection:
+    """
+    Manages SQLAlchemy engine creation and provides context manager 
+    support for connecting to SQL Server.
+    """
+
+    def __init__(
+        self,
+        server: str = "localhost",
+        database: str = "BookTrackerDB",
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        driver: str = "ODBC Driver 17 for SQL Server",
+        trusted_connection: bool = False,
+    ):
+        self.server = server
+        self.database = database
+        self.username = username
+        self.password = password
+        self.driver = driver
+        self.trusted_connection = trusted_connection
+        self._engine: Optional[Engine] = None
+        self._connection: Optional[Connection] = None
+
+    def _build_connection_string(self) -> str:
+        """Constructs the ODBC connection string for SQLAlchemy."""
+        conn_parts = [
+            f"DRIVER={{{self.driver}}}",
+            f"SERVER={self.server}",
+            f"DATABASE={self.database}",
+            "TrustServerCertificate=yes",
+        ]
+
+        if self.trusted_connection:
+            conn_parts.append("Trusted_Connection=yes")
+        elif self.username and self.password:
+            conn_parts.extend([f"UID={self.username}", f"PWD={self.password}"])
+        else:
+            raise ValueError(
+                "Must specify either (username and password) OR set trusted_connection=True"
+            )
+
+        odbc_str = ";".join(conn_parts) + ";"
+        params = urllib.parse.quote_plus(odbc_str)
+        return f"mssql+pyodbc:///?odbc_connect={params}"
+
+    @property
+    def engine(self) -> Engine:
+        """Lazily creates and returns the SQLAlchemy Engine."""
+        if self._engine is None:
+            connection_url = self._build_connection_string()
+            self._engine = create_engine(connection_url, pool_pre_ping=True)
+        return self._engine
+
+    # --- Context Manager Protocol ---
+
+    def __enter__(self) -> Connection:
+        """
+        Enters the context block. Establishes and returns an active 
+        SQLAlchemy Connection object.
+        """
+        self._connection = self.engine.connect()
+        return self._connection
+
+    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
+        """
+        Exits the context block. Commits the transaction if successful,
+        rolls back if an exception occurred, and closes the connection.
+        """
+        if self._connection:
+            try:
+                if exc_type is not None:
+                    # An error occurred inside the 'with' block; roll back changes
+                    self._connection.rollback()
+                    print(f"❌ Transaction rolled back due to error: {exc_val}")
+                else:
+                    # Transaction succeeded; commit changes
+                    self._connection.commit()
+            finally:
+                self._connection.close()
+                self._connection = None
+
+    # --- Helper Methods ---
+
+    def test_connection(self) -> bool:
+        """Tests if the SQL Server database is reachable."""
+        try:
+            with self as conn:
+                result = conn.execute(
+                    text("SELECT @@VERSION AS version, DB_NAME() AS db_name;")
+                ).fetchone()
+
+                print("✅ Connection Successful!")
+                print(f"   Database: {result.db_name}")
+                print(f"   SQL Server Version: {result.version.splitlines()[0]}")
+                return True
+
+        except SQLAlchemyError as e:
+            print(f"❌ Connection Failed! Error: {e}")
+            return False
+
+
+# class SQLServerConnection:
     """
     Database connection manager class for Microsoft SQL Server using SQLAlchemy and pyodbc.
     """
@@ -21,7 +129,7 @@ class SQLServerConnection:
         driver: str = "ODBC Driver 18 for SQL Server",
         port: int = 1433,
         trusted_connection: bool = False,
-        trust_server_certificate: bool = True,
+        trust_server_certificate: str = "yes",
         fast_executemany: bool = True,
         ):
         self.server = server
