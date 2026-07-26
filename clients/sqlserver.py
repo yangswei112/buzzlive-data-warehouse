@@ -16,105 +16,109 @@ from sqlalchemy.exc import SQLAlchemyError
 
 class SQLServerConnection:
     """
-    Manages SQLAlchemy engine creation and provides context manager 
-    support for connecting to SQL Server.
+    Database connection manager class for Microsoft SQL Server using SQLAlchemy and pyodbc.
     """
 
     def __init__(
         self,
-        server: str = "localhost",
-        database: str = "BookTrackerDB",
-        username: Optional[str] = None,
-        password: Optional[str] = None,
-        driver: str = "ODBC Driver 17 for SQL Server",
+        server: str,
+        database: str,
+        username: str | None = None,
+        password: str | None = None,
+        driver: str = "ODBC Driver 18 for SQL Server",
+        port: int = 1433,
         trusted_connection: bool = False,
+        trust_server_certificate: bool = True,
+        fast_executemany: bool = True,
     ):
         self.server = server
         self.database = database
         self.username = username
         self.password = password
         self.driver = driver
+        self.port = port
         self.trusted_connection = trusted_connection
-        self._engine: Optional[Engine] = None
-        self._connection: Optional[Connection] = None
+        self.trust_server_certificate = trust_server_certificate
+        self.fast_executemany = fast_executemany
+
+        self.engine: Engine = self._create_engine()
+        self.SessionLocal = sessionmaker(bind=self.engine, autoflush=False, autocommit=False)
 
     def _build_connection_string(self) -> str:
-        """Constructs the ODBC connection string for SQLAlchemy."""
-        conn_parts = [
-            f"DRIVER={{{self.driver}}}",
-            f"SERVER={self.server}",
-            f"DATABASE={self.database}",
-            "TrustServerCertificate=yes",
-        ]
+        """Builds a formatted ODBC connection URL for SQLAlchemy."""
+        params = f"DRIVER={{{self.driver}}};SERVER={self.server},{self.port};DATABASE={self.database};"
 
         if self.trusted_connection:
-            conn_parts.append("Trusted_Connection=yes")
-        elif self.username and self.password:
-            conn_parts.extend([f"UID={self.username}", f"PWD={self.password}"])
+            params += "Trusted_Connection=yes;"
         else:
-            raise ValueError(
-                "Must specify either (username and password) OR set trusted_connection=True"
-            )
+            params += f"UID={self.username};PWD={self.password};"
 
-        odbc_str = ";".join(conn_parts) + ";"
-        params = urllib.parse.quote_plus(odbc_str)
-        return f"mssql+pyodbc:///?odbc_connect={params}"
+        # ODBC Driver 18 requires SSL settings configuration
+        if "18" in self.driver and self.trust_server_certificate:
+            params += "TrustServerCertificate=yes;"
 
-    @property
-    def engine(self) -> Engine:
-        """Lazily creates and returns the SQLAlchemy Engine."""
-        if self._engine is None:
-            connection_url = self._build_connection_string()
-            self._engine = create_engine(connection_url, pool_pre_ping=True)
-        return self._engine
+        # URL encode raw connection parameters to safely handle special characters in passwords
+        encoded_params = urllib.parse.quote_plus(params)
+        return f"mssql+pyodbc:///?odbc_connect={encoded_params}"
 
-    # --- Context Manager Protocol ---
+    def _create_engine(self) -> Engine:
+        """Initializes the SQLAlchemy Engine."""
+        connection_url = self._build_connection_string()
+        return create_engine(
+            connection_url,
+            fast_executemany=self.fast_executemany,  # Speeds up batch inserts with pandas/SQLAlchemy
+            pool_pre_ping=True,                     # Verifies connection health before usage
+            pool_size=10,
+            max_overflow=20,
+        )
 
-    def __enter__(self) -> Connection:
+    @contextmanager
+    def get_session(self) -> Generator[Session, None, None]:
         """
-        Enters the context block. Establishes and returns an active 
-        SQLAlchemy Connection object.
+        Context manager for handling SQLAlchemy ORM Sessions safely.
+        Automatically handles commit, rollback, and closing.
         """
-        self._connection = self.engine.connect()
-        return self._connection
+        session: Session = self.SessionLocal()
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
-    def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
-        """
-        Exits the context block. Commits the transaction if successful,
-        rolls back if an exception occurred, and closes the connection.
-        """
-        if self._connection:
-            try:
-                if exc_type is not None:
-                    # An error occurred inside the 'with' block; roll back changes
-                    self._connection.rollback()
-                    print(f"❌ Transaction rolled back due to error: {exc_val}")
-                else:
-                    # Transaction succeeded; commit changes
-                    self._connection.commit()
-            finally:
-                self._connection.close()
-                self._connection = None
+    @contextmanager
+    def get_connection(self):
+        """Context manager for raw SQLAlchemy Core connections."""
+        connection = self.engine.connect()
+        try:
+            yield connection
+        finally:
+            connection.close()
 
-    # --- Helper Methods ---
+    def dispose(self):
+        """Closes all underlying connection pools."""
+        self.engine.dispose()
 
     def test_connection(self) -> bool:
-        """Tests if the SQL Server database is reachable."""
+        """
+        Tests the database connection by executing a lightweight query.
+        Returns True if successful, raises/prints an error if failed.
+        """
         try:
-            with self as conn:
-                result = conn.execute(
-                    text("SELECT @@VERSION AS version, DB_NAME() AS db_name;")
-                ).fetchone()
-
-                print("✅ Connection Successful!")
-                print(f"   Database: {result.db_name}")
-                print(f"   SQL Server Version: {result.version.splitlines()[0]}")
-                return True
-
-        except SQLAlchemyError as e:
-            print(f"❌ Connection Failed! Error: {e}")
+            with self.get_connection() as conn:
+                # Execute a simple lightweight query
+                result = conn.execute(text("SELECT 1;")).scalar()
+                if result == 1:
+                    print("✅ Database connection successful!")
+                    return True
+        except (OperationalError, DBAPIError) as e:
+            print(f"❌ Connection failed: {e}")
             return False
-
+        except Exception as e:
+            print(f"❌ Unexpected error during connection test: {e}")
+            return False
 
 # class SQLServerConnection:
     """
