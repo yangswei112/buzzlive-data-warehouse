@@ -104,7 +104,7 @@ def get_silver_data_shopee(start_date: str, end_date: str, brand_name: str) -> p
     """
     query_silver_shopee = text("""
         SELECT * FROM silver.shopee_livestreaming
-        WHERE live_start_date BETWEEN :start AND :end'
+        WHERE live_start_date BETWEEN :start AND :end
         AND UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name= :brand AND platform='Shopee')
         AND Studio = 'Klaten'
         ORDER BY StartTime;
