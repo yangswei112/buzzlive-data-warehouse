@@ -406,7 +406,7 @@ def shopee_transform_action(shopee_path: str, result_path: str):
 
     ready_to_db_shopee_silver = pd.concat(transformed_shopee_lst)
     # ready_to_db_shopee_silver.to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
-    ready_to_db_shopee_silver[ready_to_db_shopee_silver['live_start_date'] > datetime(2026, 7, 5).date()].to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
+    ready_to_db_shopee_silver[ready_to_db_shopee_silver['live_start_date'] > datetime(2026, 7, 12).date()].to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
 
     shopee_bronze_db = ['DataPeriod', 'UserId', 'No', 'LivestreamName', 'StartTime', 'Duration',
                         'EngagedViewers', 'Comments', 'ATC', 'AvgViewingDuration', 'Viewers',
