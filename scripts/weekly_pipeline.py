@@ -38,7 +38,7 @@ def load_to_bigquery(start_date_weekly, end_date_weekly):
     bq = BigQueryConn()
     # load the gold bronze data to bigquery
     gold_bronze_df = get_raw_data_from_db(start_date=start_date_weekly, end_date=end_date_weekly)
-    gold_bronze_df['live_start_date'] = gold_bronze_df['live_start_date'].astype("string")
+    # gold_bronze_df['live_start_date'] = gold_bronze_df['live_start_date'].astype("string")
     bq.load_dataframe_to_bigquery(gold_bronze_df)
 
     print("data successfully loaded to bigquery")
