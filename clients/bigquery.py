@@ -13,7 +13,15 @@ class BigQueryConn:
         print(f"Connected to BigQuery project: {self.project_id}, dataset: {self.dataset_id}")
 
     def load_dataframe_to_bigquery(self, df: pd.DataFrame):
+        df_to_load = df.copy()
+
+        # 2. Safely cast date strings to datetime/date objects if column exists
+        if 'live_start_date' in df_to_load.columns:
+            df_to_load['live_start_date'] = pd.to_datetime(
+                df_to_load['live_start_date'], errors='coerce'
+            ).dt.date
+
         table_id = f"{self.dataset_ref}.raw_data_livestreaming"
-        job = self.client.load_table_from_dataframe(df, table_id)
+        job = self.client.load_table_from_dataframe(df_to_load, table_id)
         job.result()  # Wait for the job to complete.
         print(f"Loaded {job.output_rows} rows into {table_id}.")
