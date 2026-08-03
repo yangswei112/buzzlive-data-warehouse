@@ -1,18 +1,20 @@
-from scripts.weekly_pipeline import *
-from scripts.monthly_pipeline import *
+# from scripts.weekly_pipeline import *
+# from scripts.monthly_pipeline import *
+
+from utils.buzzwh_transform import *
 
 # WEEKLY REPORT PIPELINE
 # SET UP DATE RANGE
-start_date_weekly = '2026-07-13'
-end_date_weekly = '2026-07-26'
+# start_date_weekly = '2026-07-13'
+# end_date_weekly = '2026-07-26'
 
-extract()
-transform()
-load_to_db(start_date=start_date_weekly, end_date=end_date_weekly)
-load_to_bigquery(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-load_to_gsheet(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+# extract()
+# transform()
+# load_to_db(start_date=start_date_weekly, end_date=end_date_weekly)
+# load_to_bigquery(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+# load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+# load_to_gsheet(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+# load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
 
 # MONTHLY REPORT PIPELINE
 # SET UP DATE RANGE
@@ -28,12 +30,12 @@ load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_d
 
 
 
-# # SET UP THE DATABASE CONNECTION
-# connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
+# SET UP THE DATABASE CONNECTION
+connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # # SET UP THE FILE PATH
-# shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/shopee seller center/to-trf/'
-# tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/tiktok seller center/to-trf/'
+shopee_report_path = 'C:/datasets/shopee seller center/update/'
+tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 # result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
 
@@ -49,9 +51,9 @@ load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_d
 # df_raw = get_raw_data_from_db(connection_string, start_date, end_date)
 # load_to_bigquery(df_raw, 'buzzwh.raw_data_livestreaming')
 
-# # UPDATE MONTHLY SALES
-# # UPDATE SHOPEE MONTHLY SALES
-# update_shopee_sales(shopee_report_path, connection_string)
+# UPDATE MONTHLY SALES
+# UPDATE SHOPEE MONTHLY SALES
+update_shopee_sales(shopee_report_path, connection_string)
 
-# # UPDATE TIKTOK MONTHLY SALES
-# update_tiktok_sales(tiktok_report_path, connection_string)
+# UPDATE TIKTOK MONTHLY SALES
+update_tiktok_sales(tiktok_report_path, connection_string)
