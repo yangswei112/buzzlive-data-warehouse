@@ -1,10 +1,10 @@
-from buzzwh import *
+from scripts.buzzwh import *
 from clients.google_sheets import GoogleSheetsConn
 
 
 def update_monthly():
-    shopee_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/buzzlive-data-warehouse/datasets/shopee seller center/update/'
-    tiktok_report_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/buzzlive-data-warehouse/datasets/tiktok seller center/update/'
+    shopee_report_path = 'C:/datasets/shopee seller center/update/'
+    tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 
     update_shopee_sales(shopee_report_path)
     update_tiktok_sales(tiktok_report_path)
