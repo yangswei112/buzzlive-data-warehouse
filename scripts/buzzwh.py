@@ -182,31 +182,31 @@ def update_shopee_sales(shopee_path: str):
     ready_to_update_shopee_silver = ready_to_db_shopee_silver_update[['UserId','live_start','live_placed_orders', 'live_confirmed_orders',
                                                                 'live_placed_items_sold', 'live_confirmed_items_sold','live_placed_sales',
                                                                 'live_confirmed_sales']]
+
+    for index, row in ready_to_update_shopee_silver.iterrows():
+        query_update_sales_shopee = text("""
+                        UPDATE silver.shopee_livestreaming
+                        SET live_confirmed_sales = :row1,
+                            live_placed_sales = :row2,
+                            live_confirmed_items_sold = :row3,
+                            live_placed_items_sold = :row4,
+                            live_confirmed_orders = :row5,
+                            live_placed_orders = :row6
+                        WHERE UserId = :row7
+                        AND live_start = :row8
+                    """)
+        params = {'row1':row['live_confirmed_sales'],
+                'row2':row['live_placed_sales'],
+                'row3':row['live_confirmed_items_sold'],
+                'row4':row['live_placed_items_sold'],
+                'row5':row['live_confirmed_orders'],
+                'row6':row['live_placed_orders'],
+                'row7':row['UserId'],
+                'row8':row['live_start']}
     # ready_to_update_shopee_silver.head()
     # update
-    with ss.get_session() as session:
-        for index, row in ready_to_update_shopee_silver.iterrows():
-            query_update_sales_shopee = text("""
-                            UPDATE silver.shopee_livestreaming
-                            SET live_confirmed_sales = :row1,
-                                live_placed_sales = :row2,
-                                live_confirmed_items_sold = :row3,
-                                live_placed_items_sold = :row4,
-                                live_confirmed_orders = :row5,
-                                live_placed_orders = :row6
-                            WHERE UserId = :row7
-                            AND live_start = :row8
-                        """)
-            params = {'row1':row['live_confirmed_sales'],
-                    'row2':row['live_placed_sales'],
-                    'row3':row['live_confirmed_items_sold'],
-                    'row4':row['live_placed_items_sold'],
-                    'row5':row['live_confirmed_orders'],
-                    'row6':row['live_placed_orders'],
-                    'row7':row['UserId'],
-                  'row8':row['live_start']}
-       
-            session.execute(query_update_sales_shopee, params=params)
+        with ss.get_session() as session:
+                session.execute(query_update_sales_shopee, params=params)
 
     print("ALL THE SHOPEE SALES DATA HAVE BEEN UPDATED ON DATABASE")
 
@@ -237,23 +237,23 @@ def update_tiktok_sales(tiktok_path: str):
     ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_direct_gmv','OrdersPaidFor','ItemsSold','Customers']]
     # ready_to_update_tiktok.head()
 
-    with ss.get_session() as session:
-        for index, row in ready_to_update_tiktok.iterrows():
-            query_update_sales_tiktok = text("""
-                            UPDATE silver.tiktok_livestreaming
-                            SET live_direct_gmv = :row1,
-                                OrdersPaidFor = :row2,
-                                ItemsSold = :row3,
-                                Customers = :row4
-                            WHERE CreatorId = :row5
-                            AND StartTime = :row6
-                        """)
-            params = {'row1':row['live_direct_gmv'],
-                      'row2':row['OrdersPaidFor'],
-                      'row3':row['ItemsSold'],
-                      'row4':row['Customers'],
-                      'row5':row['CreatorId'],
-                      'row6':row['StartTime']}
+    for index, row in ready_to_update_tiktok.iterrows():
+        query_update_sales_tiktok = text("""
+                        UPDATE silver.tiktok_livestreaming
+                        SET live_direct_gmv = :row1,
+                            OrdersPaidFor = :row2,
+                            ItemsSold = :row3,
+                            Customers = :row4
+                        WHERE CreatorId = :row5
+                        AND StartTime = :row6
+                    """)
+        params = {'row1':row['live_direct_gmv'],
+                'row2':row['OrdersPaidFor'],
+                'row3':row['ItemsSold'],
+                'row4':row['Customers'],
+                'row5':row['CreatorId'],
+                'row6':row['StartTime']}
+        with ss.get_session() as session:
             session.execute(query_update_sales_tiktok, params=params)
 
     print("ALL THE TIKTOK SALES DATA HAVE BEEN UPDATED ON DATABASE")
