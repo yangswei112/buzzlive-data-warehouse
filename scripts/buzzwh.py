@@ -263,7 +263,7 @@ def backup_database(monthyear: str):
     Backs up the database to a specified file path.
     """
     # Build the file path in Python
-    backup_file = f"C:/SQLBackups/BuzzliveWarehouse-{monthyear}.bak"
+    backup_file = f"C:\\SQLBackups\\BuzzliveWarehouse-{monthyear}.bak"
     
     # Raw SQL query with formatted path
     query_backup = text(f"""
@@ -275,7 +275,8 @@ def backup_database(monthyear: str):
     """)
     
     # Must use autocommit mode for SQL Server BACKUP statements
-    with ss.get_connection().execution_options(isolation_level="AUTOCOMMIT") as conn:
+    with ss.get_connection() as rawconn:
+        conn = rawconn.execution_options(isolation_level="AUTOCOMMIT")
         conn.execute(query_backup, {"backup_file": backup_file})
 
     print(f'Database has been backed up to {backup_file}')
