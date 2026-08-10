@@ -20,15 +20,15 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'DELTOMED FILTERED'
 
-    -- TATARUMA
-    UPDATE silver.tiktok_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '18:00:00' AND '22:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Tiktok')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'TATARUMA FILTERED'
+    -- -- TATARUMA
+    -- UPDATE silver.tiktok_livestreaming
+    -- SET Studio = CASE 
+    --     WHEN live_start_time BETWEEN '18:00:00' AND '22:59:00' THEN 'Klaten'
+    --     ELSE 'Client' 
+    -- END
+    -- WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Tiktok')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'TATARUMA FILTERED'
 
     -- Ortuseight
     UPDATE silver.tiktok_livestreaming
@@ -65,12 +65,12 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'MEDIKON FILTERED'
 
-     -- Wund+
-    UPDATE silver.tiktok_livestreaming
-    SET Studio = 'Klaten'
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Wund+' AND platform='Tiktok')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'WUND+ FILTERED'
+    --  -- Wund+
+    -- UPDATE silver.tiktok_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Wund+' AND platform='Tiktok')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'WUND+ FILTERED'
 
      -- Samyang
     UPDATE silver.tiktok_livestreaming
@@ -79,29 +79,43 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'SAMYANG FILTERED'
 
-     -- Everbest
+    --  -- Everbest
+    -- UPDATE silver.tiktok_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Everbest' AND platform='Tiktok')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'EVERBEST FILTERED'
+
+    --  -- Paffle
+    -- UPDATE silver.tiktok_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Tiktok')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'PAFLE FILTERED'
+
+    --  -- Skinflair
+    -- UPDATE silver.tiktok_livestreaming
+    -- SET Studio = CASE 
+    --     WHEN live_start_time BETWEEN '16:00:00' AND '21:59:00' THEN 'Klaten'
+    --     ELSE 'Client' 
+    -- END
+    -- WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Skinflair' AND platform='Tiktok')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'SKINFLAIR FILTERED'
+
+    -- Herbana
     UPDATE silver.tiktok_livestreaming
     SET Studio = 'Klaten'
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Everbest' AND platform='Tiktok')
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Herbana' AND platform='Tiktok')
     AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'EVERBEST FILTERED'
+    PRINT 'HERBANA FILTERED'
 
-     -- Paffle
+    -- Herbamojo
     UPDATE silver.tiktok_livestreaming
     SET Studio = 'Klaten'
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Tiktok')
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Herbamojo' AND platform='Tiktok')
     AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'PAFLE FILTERED'
-
-     -- Skinflair
-    UPDATE silver.tiktok_livestreaming
-    SET Studio = CASE 
-        WHEN live_start_time BETWEEN '16:00:00' AND '21:59:00' THEN 'Klaten'
-        ELSE 'Client' 
-    END
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Skinflair' AND platform='Tiktok')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'SKINFLAIR FILTERED'
+    PRINT 'HERBAMOJO FILTERED'
 
 END;
 
@@ -130,12 +144,12 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'DELTOMED FILTERED'
 
-    -- TATARUMA
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'TATARUMA FILTERED'
+    -- -- TATARUMA
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Tataruma' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'TATARUMA FILTERED'
 
     -- Ortuseight
     UPDATE silver.shopee_livestreaming
@@ -210,6 +224,20 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ONA INDONESIA FILTERED'
 
+    -- Herbana
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Herbana' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'HERBANA FILTERED'
+
+    -- Herbamojo
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Herbamojo' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'HERBAMOJO FILTERED'
+
     --  -- Wund+
     -- UPDATE silver.shopee_livestreaming
     -- SET Studio = 'Klaten'
@@ -217,12 +245,12 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'WUND+ FILTERED'
 
-     -- PAFLE
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'PAFLE FILTERED'
+    --  -- PAFLE
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Pafle' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'PAFLE FILTERED'
 
     -- reniafrianishop
     UPDATE silver.shopee_livestreaming
@@ -271,12 +299,12 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'URBANX FILTERED'
 
-    -- ARMOURS
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ARMOURS' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'ARMOURS FILTERED'
+    -- -- ARMOURS
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ARMOURS' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'ARMOURS FILTERED'
 
     -- IRISHLAB
     UPDATE silver.shopee_livestreaming
@@ -292,26 +320,26 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'KENZ17 FILTERED'
 
-    -- CELCIUS OS
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='CELCIUS OS' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'CELCIUS OS FILTERED'
+    -- -- CELCIUS OS
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='CELCIUS OS' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'CELCIUS OS FILTERED'
 
-    -- QUEENSLAND OS
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='QUEENSLAND OS' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'QUEENSLAND OS FILTERED'
+    -- -- QUEENSLAND OS
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='QUEENSLAND OS' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'QUEENSLAND OS FILTERED'
 
-    -- MISSISSIPPI OS
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='MISSISSIPPI OS' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'MISSISSIPPI OS FILTERED'
+    -- -- MISSISSIPPI OS
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='MISSISSIPPI OS' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'MISSISSIPPI OS FILTERED'
 
     -- -- MOMOCABAG
     -- UPDATE silver.shopee_livestreaming
@@ -427,19 +455,19 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'VILEO FILTERED';
 
-    -- WESTBRONCO
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='WESTBRONCO' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'WESTBRONCO FILTERED'
+    -- -- WESTBRONCO
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='WESTBRONCO' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'WESTBRONCO FILTERED'
 
-    -- SMITHMENSUPLAY
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SMITHMENSUPPLY' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'SMITHMENSUPLAY FILTERED'
+    -- -- SMITHMENSUPLAY
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SMITHMENSUPPLY' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'SMITHMENSUPLAY FILTERED'
 
     -- -- MITRA10BAHANBANGUNAN
     -- UPDATE silver.shopee_livestreaming
@@ -458,12 +486,12 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'AOMIOFFICIAL FILTERED'
 
-    -- LEARNING RESOURCES
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='LEARNING RESOURCES' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'LEARNING RESOURCES FILTERED'
+    -- -- LEARNING RESOURCES
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='LEARNING RESOURCES' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'LEARNING RESOURCES FILTERED'
 
     -- WELLENPRINT
     UPDATE silver.shopee_livestreaming
@@ -472,12 +500,12 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'WELLENPRINT FILTERED'
 
-    -- VIDYA OUTLET
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'VIDYA OUTLET FILTERED'
+    -- -- VIDYA OUTLET
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='VIDYA OUTLET' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'VIDYA OUTLET FILTERED'
 
     -- -- COROLLA.FASHION.ID
     -- UPDATE silver.shopee_livestreaming
@@ -514,19 +542,19 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'OOUWA FILTERED'
 
-    -- SENSWELL
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SENSWELL' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'SENSWELL FILTERED'
+    -- -- SENSWELL
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='SENSWELL' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'SENSWELL FILTERED'
 
-    -- HIRAKIYA
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='HIRAKIYA' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'HIRAKIYA FILTERED'
+    -- -- HIRAKIYA
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='HIRAKIYA' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'HIRAKIYA FILTERED'
 
     -- ONPOINT
     UPDATE silver.shopee_livestreaming
@@ -534,4 +562,11 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ONPOINT' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'ONPOINT FILTERED'
+
+    -- BASEUS
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='BASEUS' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'BASEUS FILTERED'
 END;
