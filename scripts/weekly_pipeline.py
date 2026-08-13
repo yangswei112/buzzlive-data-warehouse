@@ -65,7 +65,9 @@ def load_silver_to_sheets(start_date_weekly, end_date_weekly):
     'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
     'Tataruma': 'TATARUMA REPORT 2026 (NEW)',
     'Wund+': 'WUND+ REPORT 2026 (NEW)',
-    'Skinflair': 'SKINFLAIR REPORT 2026 (NEW)'}
+    'Skinflair': 'SKINFLAIR REPORT 2026 (NEW)',
+    'Herbana': 'HERBANA REPORT 2026 (NEW)',
+    'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',}
     gs = GoogleSheetsConn()
     for brand, gsheet in brand_gsheet_dct.items():
         silver_shopee_df = get_silver_data_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand)
