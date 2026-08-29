@@ -9,14 +9,6 @@ def update_monthly():
     update_shopee_sales(shopee_report_path)
     update_tiktok_sales(tiktok_report_path)
 
-def load_shopee_seller_to_sheet(start_date_monthly, end_date_monthly):
-    gs = GoogleSheetsConn()
-    shopee_seller_df = get_shopee_seller_data(start_date=start_date_monthly, end_date=end_date_monthly)
-    gs.load_dataframe_to_sheet(shopee_seller_df, 'monthlyreport_shopee', 'from_db_shopee')
-
-def backup_db(month: str):
-    backup_database(monthyear=month)
-
 def load_raw_komisi_shopee_all(start_date, end_date, monthyear):
     """
     monthyear = 'aug-2026'
@@ -66,3 +58,11 @@ def load_raw_komisi_shopee(start_date, end_date, monthyear, brand):
     df_shopee = get_silver_data_shopee(start_date=start_date, end_date=end_date, brand_name=brand)
     gs.create_sheet_in_folder(title=sheet_name_shopee, folder_id=FOLDER_ID_shopee)
     gs.load_dataframe_to_sheet(df = df_shopee, spreadsheet_name=sheet_name_shopee)
+
+def load_shopee_seller_to_sheet(start_date_monthly, end_date_monthly):
+    gs = GoogleSheetsConn()
+    shopee_seller_df = get_shopee_seller_data(start_date=start_date_monthly, end_date=end_date_monthly)
+    gs.load_dataframe_to_sheet(shopee_seller_df, 'monthlyreport_shopee', 'from_db_shopee')
+
+def backup_db(month: str):
+    backup_database(monthyear=month)
