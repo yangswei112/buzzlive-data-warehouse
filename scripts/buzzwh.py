@@ -103,7 +103,11 @@ def get_silver_data_shopee(start_date: str, end_date: str, brand_name: str) -> p
     to get silver data from database
     """
     query_silver_shopee = text("""
-        SELECT * FROM silver.shopee_livestreaming
+        SELECT 
+        DataPeriod, UserId, No, LivestreamName, StartTime, Duration, live_engaged_viewers, live_comments,
+        live_atc, AvgViewingDuration, live_viewers, live_placed_orders, live_confirmed_orders, live_placed_items_sold, live_confirmed_items_sold,
+        live_placed_sales, live_confirmed_sales
+        FROM silver.shopee_livestreaming
         WHERE live_start_date BETWEEN :start AND :end
         AND UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name= :brand AND platform='Shopee')
         AND Studio = 'Klaten'
@@ -122,7 +126,10 @@ def get_silver_data_tiktok(start_date: str, end_date: str, brand_name: str) -> p
     to get silver data from database
     """
     query_silver_tiktok = text("""
-        SELECT * FROM silver.tiktok_livestreaming
+        SELECT
+        CreatorId, LivestreamCreator, StartTime, Duration, live_direct_gmv, OrdersPaidFor, ItemsSold, Customers, live_avg_price,
+        CTOR, live_gross_revenue, Viewers, Views, AvgViewDuration, Comments, Shares, Likes, NewFollowers, ProductImpressions, ProductClicks, CTR
+        FROM silver.tiktok_livestreaming
         WHERE live_start_date BETWEEN :start AND :end
         AND CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name=:brand AND platform='Tiktok')
         AND Studio = 'Klaten'
