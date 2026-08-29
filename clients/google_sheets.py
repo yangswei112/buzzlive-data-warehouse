@@ -10,7 +10,7 @@ class GoogleSheetsConn:
         self.gc = gspread.service_account(filename=GOOGLE_APPLICATION_CREDENTIALS)
         print("Connected to Google Sheets API")
     
-    def load_dataframe_to_sheet(self, df: pd.DataFrame, spreadsheet_name: str, worksheet_name: str):
+    def load_dataframe_to_sheet(self, df: pd.DataFrame, spreadsheet_name: str, worksheet_name='Sheet1'):
         sh = self.gc.open(spreadsheet_name)
         worksheet = sh.worksheet(worksheet_name)
         worksheet.clear()  # Clear existing data
