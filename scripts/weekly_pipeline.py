@@ -57,15 +57,10 @@ def load_silver_to_sheets(start_date_weekly, end_date_weekly):
     'Beeme': "BEEME REPORT 2026 (NEW)",
     'Bloomlab': 'BLOOMLAB REPORT 2026 (NEW)',
     'Deltomed': 'DELTOMED REPORT 2026',
-    'Everbest': 'EVERBEST REPORT 2026 (NEW)',
     'Heavenly Yogurt': 'HEAVENLY YOGURT REPORT 2026 (NEW)',
     'Medikon': 'MEDIKON REPORT 2026 (NEW)',
     'Ona Indonesia': 'ONA INDONESIA REPORT 2026 (NEW)',
-    'Pafle': 'PAFLE REPORT 2026 (NEW)',
     'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
-    'Tataruma': 'TATARUMA REPORT 2026 (NEW)',
-    'Wund+': 'WUND+ REPORT 2026 (NEW)',
-    'Skinflair': 'SKINFLAIR REPORT 2026 (NEW)',
     'Herbana': 'HERBANA REPORT 2026 (NEW)',
     'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',}
     gs = GoogleSheetsConn()
