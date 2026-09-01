@@ -43,7 +43,7 @@ def shopee_transform(trial):
                                      'No.': 'No',
                                      'Livestream Name': 'LivestreamName',
                                      'Start Time': 'StartTime',
-                                     'Duration': 'Duration',
+                                     'Duration:': 'Duration',
                                      'Engaged Viewers': 'EngagedViewers',
                                      'Comments': 'Comments',
                                      'ATC': 'ATC',
