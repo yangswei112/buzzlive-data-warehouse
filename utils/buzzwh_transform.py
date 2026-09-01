@@ -467,7 +467,7 @@ def update_shopee_sales(shopee_path: str, connection_db: str):
     print('SHOPEE TRANSFORMING PROCESS STARTS')
 
     for file in shopee_file_names:
-        loaded_file = pd.read_excel(shopee_path+file, skiprows=2)
+        loaded_file = pd.read_excel(shopee_path+file)
         print(file + " " + "is loaded")
         transformed_file = shopee_transform(loaded_file)
         print(file + " " + "is transformed")
