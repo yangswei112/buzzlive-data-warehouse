@@ -77,7 +77,7 @@ def shopee_transform(trial):
         print('STEP 3 PROCESS STARTS')
         trial['live_start'] = pd.to_datetime(trial['StartTime'], format="%d-%m-%Y %H:%M")
         trial['live_start_date'] = pd.to_datetime(trial['StartTime'], format="%d-%m-%Y %H:%M").apply(lambda x: x.date())
-        trial['live_start_time'] = pd.to_datetime(trial['StartTime']).apply(lambda x: round_to_nearest_hour(x).time())
+        trial['live_start_time'] = pd.to_datetime(trial['StartTime'], format="%d-%m-%Y %H:%M").apply(lambda x: round_to_nearest_hour(x).time())
         print('STEP 3 PROCESS DONE, CONTINUE TO STEP 4')
     except Exception as e:
         print('ERROR OCCURED DURING STEP 3 PROCESS. THE ERROR IS: ', e)
