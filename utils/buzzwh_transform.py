@@ -75,7 +75,7 @@ def shopee_transform(trial):
     # STEP 3 - Start Time column: create a new formatted and separated start date and start time
     try:
         print('STEP 3 PROCESS STARTS')
-        trial['live_start'] = pd.to_datetime(trial['StartTime'])
+        trial['live_start'] = pd.to_datetime(trial['StartTime'], format="%d-%m-%Y %H:%M")
         trial['live_start_date'] = pd.to_datetime(trial['StartTime'], format="%d-%m-%Y %H:%M").apply(lambda x: x.date())
         trial['live_start_time'] = pd.to_datetime(trial['StartTime']).apply(lambda x: round_to_nearest_hour(x).time())
         print('STEP 3 PROCESS DONE, CONTINUE TO STEP 4')
