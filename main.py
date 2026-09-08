@@ -1,7 +1,7 @@
 # from scripts.weekly_pipeline import *
 # from scripts.monthly_pipeline import *
 
-from utils.buzzwh_transform import *
+# from utils.buzzwh_transform import *
 
 # WEEKLY REPORT PIPELINE
 # SET UP DATE RANGE
@@ -26,16 +26,19 @@ from utils.buzzwh_transform import *
 
 
 
+from clients.bigquery import BigQueryConn
+
+bq = BigQueryConn()
+print(bq)
 
 
 
-
-# SET UP THE DATABASE CONNECTION
-connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
+# # SET UP THE DATABASE CONNECTION
+# connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # # SET UP THE FILE PATH
-shopee_report_path = 'C:/datasets/shopee seller center/update/'
-tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
+# shopee_report_path = 'C:/datasets/shopee seller center/update/'
+# tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 # result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
 
@@ -52,8 +55,8 @@ tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 # load_to_bigquery(df_raw, 'buzzwh.raw_data_livestreaming')
 
 # UPDATE MONTHLY SALES
-# UPDATE SHOPEE MONTHLY SALES
-update_shopee_sales(shopee_report_path, connection_string)
+# # UPDATE SHOPEE MONTHLY SALES
+# update_shopee_sales(shopee_report_path, connection_string)
 
-# UPDATE TIKTOK MONTHLY SALES
-update_tiktok_sales(tiktok_report_path, connection_string)
+# # UPDATE TIKTOK MONTHLY SALES
+# update_tiktok_sales(tiktok_report_path, connection_string)
