@@ -434,7 +434,7 @@ def tiktok_transform_action(tiktok_path: str, result_path: str):
     print('TIKTOK 1 TRANSFORMING PROCESS STARTS')
     # TRANSFORM TIKTOK 1
     for file in tiktok_file_names:
-        loaded_file = pd.read_excel(tiktok_path+file, skiprows=2)
+        loaded_file = pd.read_excel(tiktok_path+file, skiprows=2, sheet_name='Sheet1')
         print(file + " " + "is loaded")
         transformed_file = tiktok_transform_vers1(loaded_file)
         print(file + " " + "is transformed")
