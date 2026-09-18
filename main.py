@@ -54,9 +54,9 @@ tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 # df_raw = get_raw_data_from_db(connection_string, start_date, end_date)
 # load_to_bigquery(df_raw, 'buzzwh.raw_data_livestreaming')
 
-# UPDATE MONTHLY SALES
-# UPDATE SHOPEE MONTHLY SALES
-update_shopee_sales(shopee_report_path, connection_string)
+# # UPDATE MONTHLY SALES
+# # UPDATE SHOPEE MONTHLY SALES
+# update_shopee_sales(shopee_report_path, connection_string)
 
-# UPDATE TIKTOK MONTHLY SALES
-update_tiktok_sales(tiktok_report_path, connection_string)
+# # UPDATE TIKTOK MONTHLY SALES
+# update_tiktok_sales(tiktok_report_path, connection_string)
