@@ -551,12 +551,12 @@ BEGIN
     -- AND live_start_date BETWEEN @start_date AND @end_date
     -- PRINT 'HIRAKIYA FILTERED'
 
-    -- ONPOINT
-    UPDATE silver.shopee_livestreaming
-    SET Studio = 'Klaten'
-    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ONPOINT' AND platform='Shopee')
-    AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'ONPOINT FILTERED'
+    -- -- ONPOINT
+    -- UPDATE silver.shopee_livestreaming
+    -- SET Studio = 'Klaten'
+    -- WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='ONPOINT' AND platform='Shopee')
+    -- AND live_start_date BETWEEN @start_date AND @end_date
+    -- PRINT 'ONPOINT FILTERED'
 
     -- BASEUS
     UPDATE silver.shopee_livestreaming
@@ -564,4 +564,11 @@ BEGIN
     WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='BASEUS' AND platform='Shopee')
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'BASEUS FILTERED'
+
+    -- KANBAI
+    UPDATE silver.shopee_livestreaming
+    SET Studio = 'Klaten'
+    WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='KANBAI' AND platform='Shopee')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'KANBAI FILTERED'
 END;
