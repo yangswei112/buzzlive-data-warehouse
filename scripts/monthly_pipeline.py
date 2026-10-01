@@ -27,7 +27,7 @@ def load_raw_komisi_shopee_all(start_date, end_date, monthyear):
     brands = ['Ortuseight','Deltomed','Heavenly Yogurt',
               'Samyang','Herbana','Herbamojo']
     for brand in brands:
-        FOLDER_ID_shopee = "1j0Zrd0PzQWhm6tkG-JvJylTFKH5z3KLA"
+        FOLDER_ID_shopee = "1EIYwWpX0MkzbFQRrgGKRtNup6_Qeqka9"
         sheet_name_shopee = f"{brand}-gmv-shopee-{monthyear}"
         df_shopee = get_silver_data_shopee(start_date=start_date, end_date=end_date, brand_name=brand)
         gs.create_sheet_in_folder(title=sheet_name_shopee, folder_id=FOLDER_ID_shopee)
@@ -41,7 +41,7 @@ def load_raw_komisi_tiktok_all(start_date, end_date, monthyear):
     brands = ['Ortuseight','Deltomed',
               'Medikon','Samyang','Herbana','Herbamojo']
     for brand in brands:
-        FOLDER_ID_tiktok = "1Gbnl0Nfvq89geo80fjT-1xYhA9kYK1xZ"
+        FOLDER_ID_tiktok = "1MfsqlzWzs4mT_4g4jj__dpkdmfuAUi5T"
         sheet_name_tiktok = f"{brand}-gmv-tiktok-{monthyear}"
         df_tiktok = get_silver_data_tiktok(start_date=start_date, end_date=end_date, brand_name=brand)
         gs.create_sheet_in_folder(title=sheet_name_tiktok, folder_id=FOLDER_ID_tiktok)
