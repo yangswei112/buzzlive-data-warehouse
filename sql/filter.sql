@@ -86,6 +86,20 @@ BEGIN
     AND live_start_date BETWEEN @start_date AND @end_date
     PRINT 'HERBAMOJO FILTERED'
 
+    -- SIMBA CEREAL 
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = 'Klaten'
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Simba Cereal' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'SIMBA CEREAL FILTERED'
+
+    -- Air Mancur
+    UPDATE silver.tiktok_livestreaming
+    SET Studio = 'Klaten'
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Air Mancur' AND platform='Tiktok')
+    AND live_start_date BETWEEN @start_date AND @end_date
+    PRINT 'AIR MANCUR FILTERED'
+
 END;
 
 GO
