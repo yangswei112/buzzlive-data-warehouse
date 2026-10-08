@@ -16,13 +16,13 @@ def extract():
     return shopee_report_path, tiktok_report_path
 
 # TRANSFORM
-def transform():
+def transform(mindate):
     """
     to tansform extracted data to match the database schema
     """
     result_path = 'C:/datasets/result/'
-    shopee_transform_action(extract()[0], result_path)
-    tiktok_transform_action(extract()[1], result_path)
+    shopee_transform_action(extract()[0], result_path, min_date=mindate)
+    tiktok_transform_action(extract()[1], result_path, min_date=mindate)
 
  # LOAD
 def load_to_database(start_date_weekly, end_date_weekly):
@@ -62,7 +62,9 @@ def load_silver_to_sheets(start_date_weekly, end_date_weekly):
     'Ona Indonesia': 'ONA INDONESIA REPORT 2026 (NEW)',
     'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
     'Herbana': 'HERBANA REPORT 2026 (NEW)',
-    'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',}
+    'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',
+    'Air Mancur': 'AIR MANCUR REPORT 2026 (NEW)',
+    'Simba Cereal': 'SIMBA CEREAL REPORT 2026 (NEW)'}
     gs = GoogleSheetsConn()
     for brand, gsheet in brand_gsheet_dct.items():
         silver_shopee_df = get_silver_data_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand)

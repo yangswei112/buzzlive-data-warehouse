@@ -383,7 +383,7 @@ def tiktok_transform_vers2(trial):
     return trial
 
 
-def shopee_transform_action(shopee_path: str, result_path: str):
+def shopee_transform_action(shopee_path: str, result_path: str, min_date: str):
     """
     to transform and save shopee live data to csv
     """
@@ -406,7 +406,7 @@ def shopee_transform_action(shopee_path: str, result_path: str):
 
     ready_to_db_shopee_silver = pd.concat(transformed_shopee_lst)
     # ready_to_db_shopee_silver.to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
-    ready_to_db_shopee_silver[ready_to_db_shopee_silver['live_start_date'] > datetime(2026, 9, 30).date()].to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
+    ready_to_db_shopee_silver[ready_to_db_shopee_silver['live_start_date'] >= datetime.strptime(min_date, '%Y-%m-%d').date()].to_csv(result_path+'ready_to_db_shopee_silver.csv', index=False)
 
     shopee_bronze_db = ['DataPeriod', 'UserId', 'No', 'LivestreamName', 'StartTime', 'Duration',
                         'EngagedViewers', 'Comments', 'ATC', 'AvgViewingDuration', 'Viewers',
@@ -416,14 +416,14 @@ def shopee_transform_action(shopee_path: str, result_path: str):
 
     ready_to_db_shopee_bronze = ready_to_db_shopee_silver[shopee_bronze_db]
     # ready_to_db_shopee_silver[shopee_bronze_db].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
-    ready_to_db_shopee_silver[shopee_bronze_db][ready_to_db_shopee_silver['live_start_date'] > datetime(2026, 9, 30).date()].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
+    ready_to_db_shopee_silver[shopee_bronze_db][ready_to_db_shopee_silver['live_start_date'] >= datetime.strptime(min_date, '%Y-%m-%d').date()].to_csv(result_path+'ready_to_db_shopee_bronze.csv', index=False)
 
     print('all the shopee files are ready to be loaded to database')
     print('the shape of new shopee bronze data: ', ready_to_db_shopee_bronze.shape)
     print('the shape of new shopee silver data: ', ready_to_db_shopee_silver.shape)
 
 
-def tiktok_transform_action(tiktok_path: str, result_path: str):
+def tiktok_transform_action(tiktok_path: str, result_path: str, min_date: str):
     """
     to transform and save tiktok live to csv
     """
@@ -446,7 +446,7 @@ def tiktok_transform_action(tiktok_path: str, result_path: str):
 
     ready_to_db_tiktok = pd.concat(transformed_tiktok_lst)
     # ready_to_db_tiktok.to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
-    ready_to_db_tiktok[ready_to_db_tiktok['live_start_date'] > datetime(2026, 9, 30).date()].to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
+    ready_to_db_tiktok[ready_to_db_tiktok['live_start_date'] >= datetime.strptime(min_date, '%Y-%m-%d').date()].to_csv(result_path+'ready_to_db_tiktok.csv', index=False)
 
     print('all the tiktok files are ready to be loaded to database')
     print('the shape of new tiktok data: ', ready_to_db_tiktok.shape)
