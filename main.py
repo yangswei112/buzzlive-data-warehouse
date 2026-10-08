@@ -1,28 +1,30 @@
-# from scripts.weekly_pipeline import *
-# from scripts.monthly_pipeline import *
+from scripts.weekly_pipeline import *
+from scripts.monthly_pipeline import *
 
-from utils.buzzwh_transform import *
 
 # WEEKLY REPORT PIPELINE
 # SET UP DATE RANGE
-# start_date_weekly = '2026-07-13'
-# end_date_weekly = '2026-07-26'
+start_date_weekly = '2026-09-05'
+end_date_weekly = '2026-09-11'
 
-# extract()
-# transform()
-# load_to_db(start_date=start_date_weekly, end_date=end_date_weekly)
-# load_to_bigquery(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-# load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-# load_to_gsheet(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-# load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+extract()
+transform(mindate=start_date_weekly)
+load_to_db(start_date=start_date_weekly, end_date=end_date_weekly)
+load_to_bigquery(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+load_to_gsheet(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
+load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
 
 # MONTHLY REPORT PIPELINE
 # SET UP DATE RANGE
-# start_date_monthly = '2024-03-01'
-# end_date_monthly = '2024-03-31'
-# update_monthly()
-# load_shopee_seller_to_sheet(start_date_monthly=start_date_monthly, end_date_monthly=end_date_monthly)
-# backup_database()
+start_date_monthly = '2026-09-01'
+end_date_monthly = '2026-09-30'
+
+update_monthly()
+load_raw_komisi_shopee_all(start_date=start_date_monthly, end_date=end_date_monthly, monthyear='sep-2026')
+load_raw_komisi_tiktok_all(start_date=start_date_monthly, end_date=end_date_monthly, monthyear='sep-2026')
+load_shopee_seller_to_sheet(start_date_monthly=start_date_monthly, end_date_monthly=end_date_monthly)
+backup_database()
 
 
 
@@ -31,14 +33,14 @@ from utils.buzzwh_transform import *
 # bq = BigQueryConn()
 # print(bq)
 
-
+# from utils.buzzwh_transform import *
 
 # SET UP THE DATABASE CONNECTION
-connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
+# connection_string = ("DRIVER={SQL Server};PORT=1433;SERVER=LAPTOP-Q4096V85\SQLEXPRESS;DATABASE=BuzzliveWarehouse;Trusted_Connection=yes;")
 
 # SET UP THE FILE PATH
-shopee_report_path = 'C:/datasets/shopee seller center/update/'
-tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
+# shopee_report_path = 'C:/datasets/shopee seller center/update/'
+# tiktok_report_path = 'C:/datasets/tiktok seller center/update/'
 # result_path = 'C:/Users/ASUS/Documents/Data Engineering/BuzzliveWarehouse/datasets/result/'
 
 
