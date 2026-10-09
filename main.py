@@ -11,7 +11,6 @@ extract()
 transform(mindate=start_date_weekly)
 load_to_db(start_date=start_date_weekly, end_date=end_date_weekly)
 load_to_bigquery(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
-load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
 load_to_gsheet(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
 load_silver_to_sheets(start_date_weekly=start_date_weekly, end_date_weekly=end_date_weekly)
 
