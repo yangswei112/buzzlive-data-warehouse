@@ -47,6 +47,15 @@ def load_to_gsheet(start_date_weekly, end_date_weekly):
     gs = GoogleSheetsConn()
     # load the gold silver data to google sheet
     gold_silver_df = get_gold_silver_data(start_date=start_date_weekly, end_date=end_date_weekly)
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+
+    mapping = {'00:00:00':'23:59:00'}
+
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].replace(mapping)
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].replace(mapping)
+
+    
     gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
 
     print("data successfully loaded to 'data-to-dashboard' google sheet")
