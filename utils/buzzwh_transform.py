@@ -7,6 +7,7 @@ import pyodbc
 from google.cloud import bigquery
 import gspread
 from gspread_dataframe import set_with_dataframe
+import urllib.parse
 
 
 def shopee_transform(trial):
@@ -736,3 +737,60 @@ def get_shopee_seller_data(connection_string: str, start_date: str, end_date: st
     print('shopee seller data has been retrieved from database')
 
     return df_shopee_seller
+
+def get_prelive_data():
+    """
+    to get prelive data from google sheets
+    """
+
+    # 1. Replace with your actual Sheet ID and Tab Name
+    sheet_id = "1dNI_Tzu3-Lm_StD0NF11wW2kIbEv9uurQ87VkGIHjP4"
+    shopee_brands = ['beeme','herbamojo','herbana','samyang','ona',
+                    'heavenly','deltomed','irishlab','kanbai','marzia','reniafriani',
+                    'urbanx']
+    tiktok_brands = ['beeme','herbana','samyang','medikon','airmancur','simba',
+                    'deltomed','bloomlab']
+    df_tiktok = []
+    df_shopee = []
+    for brand in shopee_brands:
+        shopee_sheet_name = urllib.parse.quote(f"{brand}_shopee")
+
+        # 2. Construct the export URL
+        shopee_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={shopee_sheet_name}"
+
+        # 3. Read into a Pandas DataFrame
+        df_shopee.append(pd.read_csv(shopee_url))
+    df_merged_shopee = pd.concat(df_shopee, ignore_index=True)
+
+    for brand in tiktok_brands:
+        tiktok_sheet_name = urllib.parse.quote(f"{brand}_tiktok")
+
+        # 2. Construct the export URL
+        tiktok_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={tiktok_sheet_name}"
+
+        # 3. Read into a Pandas DataFrame
+        df_tiktok.append(pd.read_csv(tiktok_url))
+    df_merged_tiktok = pd.concat(df_tiktok, ignore_index=True)
+
+    df_merged = pd.concat([df_merged_shopee, df_merged_tiktok], ignore_index=True)
+    df_merged['Tanggal'] = pd.to_datetime(df_merged['Tanggal'])
+    df_merged['Schedule Start'] = pd.to_datetime(df_merged['Schedule Start']).dt.strftime('%H:%M:%S')
+    df_merged['Schedule End'] = pd.to_datetime(df_merged['Schedule End']).dt.strftime('%H:%M:%S')
+    df_merged = df_merged.rename(columns={'Schedule Start': 'ScheduleStart', 'Schedule End': 'ScheduleEnd'})
+
+    mapping = {'00:00:00':'23:59:00'}
+
+    df_merged['ScheduleStart'] = df_merged['ScheduleStart'].replace(mapping)
+    df_merged['ScheduleEnd'] = df_merged['ScheduleEnd'].replace(mapping)
+    df_merged['Merchant'] = df_merged['Merchant'].str.title()
+    df_merged['Platform'] = df_merged['Platform'].str.title()
+
+    return df_merged
+
+def find_host(df_prelive, brand, date, start_time, end_time, platform):
+    """
+    to find the host of the livestreaming based on brand, date, start_time, end_time, and platform
+    """
+    result = df_prelive.query(f"Merchant == '{brand}' and Platform == '{platform}' and Tanggal == '{date}' and ScheduleStart >= '{start_time}' and ScheduleEnd <= '{end_time}'")
+    final = ", ".join(sorted(result.Host.values.tolist()))
+    return final

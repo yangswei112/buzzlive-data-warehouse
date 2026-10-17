@@ -45,17 +45,18 @@ def load_to_bigquery(start_date_weekly, end_date_weekly):
 
 def load_to_gsheet(start_date_weekly, end_date_weekly):
     gs = GoogleSheetsConn()
-    # load the gold silver data to google sheet
+    # get the data from db
     gold_silver_df = get_gold_silver_data(start_date=start_date_weekly, end_date=end_date_weekly)
+    # transform
     gold_silver_df['StartLive'] = gold_silver_df['StartLive'].apply(lambda x: x.strftime('%H:%M:%S'))
     gold_silver_df['EndLive'] = gold_silver_df['EndLive'].apply(lambda x: x.strftime('%H:%M:%S'))
-
     mapping = {'00:00:00':'23:59:00'}
-
     gold_silver_df['StartLive'] = gold_silver_df['StartLive'].replace(mapping)
     gold_silver_df['EndLive'] = gold_silver_df['EndLive'].replace(mapping)
-
+    # find host
+    gold_silver_df['Host'] = gold_silver_df.apply(lambda row: find_host(df_prelive=get_prelive_data, brand=row['Brand'], date=row['Date'], start_time=row['StartLive'], end_time=row['EndLive'], platform=row['Platform']), axis=1)
     
+    # load the gold silver data to google sheet
     gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
 
     print("data successfully loaded to 'data-to-dashboard' google sheet")
