@@ -785,6 +785,8 @@ def get_prelive_data():
     df_merged['Merchant'] = df_merged['Merchant'].str.title()
     df_merged['Platform'] = df_merged['Platform'].str.title()
 
+    print("All brands' prelive data has been extracted.")
+
     return df_merged
 
 def find_host(df_prelive, brand, date, start_time, end_time, platform):
