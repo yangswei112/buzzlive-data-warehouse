@@ -6,6 +6,7 @@ DROP VIEW gold.WeeklyShopeeLive;
 GO
 CREATE VIEW gold.WeeklyShopeeLive AS
 SELECT
+bi.brand_id as ID,
 sl.Studio,
 bi.brand_category AS Category,
 bi.brand_name AS Brand,
@@ -33,6 +34,7 @@ DROP VIEW gold.WeeklyTiktokLive;
 GO
 CREATE VIEW gold.WeeklyTiktokLive AS
 SELECT
+bi.brand_id AS ID,
 tl.Studio AS Studio,
 bi.brand_category AS Category,
 bi.brand_name AS Brand,

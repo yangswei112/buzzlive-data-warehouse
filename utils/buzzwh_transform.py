@@ -785,14 +785,18 @@ def get_prelive_data():
     df_merged['Merchant'] = df_merged['Merchant'].str.title()
     df_merged['Platform'] = df_merged['Platform'].str.title()
 
+    df_merged['ID'] = df_merged['ID'].fillna(0)
+    df_merged['ID'] = df_merged['ID'].astype('int')
+    df_merged['ID'] = df_merged['ID'].astype('str')
+
     print("All brands' prelive data has been extracted.")
 
     return df_merged
 
-def find_host(df_prelive, brand, date, start_time, end_time, platform):
+def find_host(df_prelive, id, date, start_time, end_time, platform):
     """
     to find the host of the livestreaming based on brand, date, start_time, end_time, and platform
     """
-    result = df_prelive.query(f"Merchant == '{brand}' and Platform == '{platform}' and Tanggal == '{date}' and ScheduleStart >= '{start_time}' and ScheduleEnd <= '{end_time}'")
+    result = df_prelive.query(f"ID == '{id}' and Platform == '{platform}' and Tanggal == '{date}' and ScheduleStart >= '{start_time}' and ScheduleEnd <= '{end_time}'")
     final = ", ".join(sorted(result.Host.values.tolist()))
     return final

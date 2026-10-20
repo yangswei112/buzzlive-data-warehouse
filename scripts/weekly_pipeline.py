@@ -55,7 +55,9 @@ def load_to_gsheet(start_date_weekly, end_date_weekly):
     gold_silver_df['EndLive'] = gold_silver_df['EndLive'].replace(mapping)
     # find host
     print("Mapping host from prelive data")
-    gold_silver_df['Host'] = gold_silver_df.apply(lambda row: find_host(df_prelive=get_prelive_data, brand=row['Brand'], date=row['Date'], start_time=row['StartLive'], end_time=row['EndLive'], platform=row['Platform']), axis=1)
+    # getting the prelive data
+    df_prelive = get_prelive_data()
+    gold_silver_df['Host'] = gold_silver_df.apply(lambda row: find_host(df_prelive=df_prelive, id=row['ID'], date=row['Date'], start_time=row['StartLive'], end_time=row['EndLive'], platform=row['Platform']), axis=1)
     
     # load the gold silver data to google sheet
     gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
