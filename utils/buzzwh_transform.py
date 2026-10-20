@@ -749,7 +749,7 @@ def get_prelive_data():
                     'heavenly','deltomed','irishlab','kanbai','marzia','reniafriani',
                     'urbanx']
     tiktok_brands = ['beeme','herbana','samyang','medikon','airmancur','simba',
-                    'deltomed','bloomlab']
+                    'deltomed']
     df_tiktok = []
     df_shopee = []
     for brand in shopee_brands:

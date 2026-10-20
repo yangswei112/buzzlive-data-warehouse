@@ -62,6 +62,7 @@ def load_to_gsheet(start_date_weekly, end_date_weekly):
     # load the gold silver data to google sheet
     gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
 
+    # return gold_silver_df
     print("data successfully loaded to 'data-to-dashboard' google sheet")
 
 def load_silver_to_sheets(start_date_weekly, end_date_weekly):
