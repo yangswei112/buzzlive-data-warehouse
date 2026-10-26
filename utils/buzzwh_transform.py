@@ -748,8 +748,15 @@ def get_prelive_data():
     shopee_brands = ['beeme','herbamojo','herbana','samyang','ona',
                     'heavenly','deltomed','irishlab','kanbai','marzia','reniafriani',
                     'urbanx']
-    tiktok_brands = ['beeme','herbana','samyang','medikon','airmancur','simba',
+    tiktok_brands = ['beeme','herbana','samyang','airmancur','simba',
                     'deltomed']
+
+    mapping_ids_tiktok = {'beeme':'6807765550317208577',
+                              'herbana':'7112304615630586906',
+                              'samyang':'7433695592373289991',
+                              'airmancur':'7065096069994513409',
+                              'simba':'7088910145409123330',
+                            'deltomed':'7155695311490941979'}
     df_tiktok = []
     df_shopee = []
     for brand in shopee_brands:
@@ -769,7 +776,9 @@ def get_prelive_data():
         tiktok_url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sheet={tiktok_sheet_name}"
 
         # 3. Read into a Pandas DataFrame
-        df_tiktok.append(pd.read_csv(tiktok_url))
+        url_csv = pd.read_csv(tiktok_url)
+        url_csv['ID'] = mapping_ids_tiktok[brand]
+        df_tiktok.append(url_csv)
     df_merged_tiktok = pd.concat(df_tiktok, ignore_index=True)
 
     df_merged = pd.concat([df_merged_shopee, df_merged_tiktok], ignore_index=True)
