@@ -749,14 +749,15 @@ def get_prelive_data():
                     'heavenly','deltomed','irishlab','kanbai','marzia','reniafriani',
                     'urbanx']
     tiktok_brands = ['beeme','herbana','samyang','airmancur','simba',
-                    'deltomed']
+                    'deltomed','biarfit']
 
     mapping_ids_tiktok = {'beeme':'6807765550317208577',
                               'herbana':'7112304615630586906',
                               'samyang':'7433695592373289991',
                               'airmancur':'7065096069994513409',
                               'simba':'7088910145409123330',
-                            'deltomed':'7155695311490941979'}
+                            'deltomed':'7155695311490941979',
+                            'biarfit':'7067422620690514970'}
     df_tiktok = []
     df_shopee = []
     for brand in shopee_brands:
