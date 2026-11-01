@@ -61,9 +61,9 @@ BEGIN
     -- Medikon
     UPDATE silver.tiktok_livestreaming
     SET Studio = 'Klaten'
-    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Medikon' AND platform='Tiktok')
+    WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name='Biarfit' AND platform='Tiktok')
     AND live_start_date BETWEEN @start_date AND @end_date
-    PRINT 'MEDIKON FILTERED'
+    PRINT 'BIARFIT FILTERED'
 
     -- Samyang
     UPDATE silver.tiktok_livestreaming
