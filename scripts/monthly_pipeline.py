@@ -24,7 +24,7 @@ def load_raw_komisi_shopee_all(start_date, end_date, monthyear):
     monthyear = 'aug-2026'
     """
     gs = GoogleSheetsConn()
-    brands = ['Ortuseight','Deltomed','Heavenly Yogurt',
+    brands = ['Deltomed','Heavenly Yogurt',
               'Samyang','Herbana','Herbamojo']
     for brand in brands:
         FOLDER_ID_shopee = "1Kggsmccr6CTUF9jLJ5tJfbQYoGikg5A5"
@@ -38,8 +38,8 @@ def load_raw_komisi_tiktok_all(start_date, end_date, monthyear):
     monthyear = 'aug-2026'
     """
     gs = GoogleSheetsConn()
-    brands = ['Ortuseight','Deltomed',
-              'Medikon','Samyang','Herbana','Herbamojo']
+    brands = ['Deltomed',
+              'Medikon','Samyang','Herbana','Air Mancur','Simba Cereal','Biarfit']
     for brand in brands:
         FOLDER_ID_tiktok = "1mhw5xcLmwwj_EKy5yPb7ANm5d5N7LaSv"
         sheet_name_tiktok = f"{brand}-gmv-tiktok-{monthyear}"
