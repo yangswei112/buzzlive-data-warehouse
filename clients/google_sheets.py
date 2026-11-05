@@ -9,6 +9,13 @@ class GoogleSheetsConn:
     def __init__(self):
         self.gc = gspread.service_account(filename=GOOGLE_APPLICATION_CREDENTIALS)
         print("Connected to Google Sheets API")
+
+    def get_dataframe_from_sheet(self, spreadsheet_name: str, worksheet_name='Sheet1') -> pd.DataFrame:
+        sh = self.gc.open(spreadsheet_name)
+        worksheet = sh.worksheet(worksheet_name)
+        data = worksheet.get_all_records()
+        df = pd.DataFrame(data)
+        return df
     
     def load_dataframe_to_sheet(self, df: pd.DataFrame, spreadsheet_name: str, worksheet_name='Sheet1'):
         sh = self.gc.open(spreadsheet_name)

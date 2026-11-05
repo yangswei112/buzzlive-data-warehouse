@@ -19,7 +19,33 @@ def update_monthly_2():
     bt.update_shopee_sales(shopee_path=shopee_report_path, connection_db=connection_string)
     bt.update_tiktok_sales(tiktok_path=tiktok_report_path, connection_db=connection_string)
 
-def load_raw_komisi_shopee_all(start_date, end_date, monthyear):
+def update_gmv_in_google_sheets(start_date: str, end_date: str, spreadsheet_name = 'data-to-dashboard', worksheet_name = 'to-update'):
+    gs = GoogleSheetsConn()
+    """
+    Update GMV data in Google Sheets
+    """
+    # get data from database
+    print("retrieving data from database...")
+    dfdb = get_gold_silver_data(start_date=start_date, end_date=end_date)
+    dfdb['Date'] = dfdb['Date'].astype(str)
+
+    # get data from google sheets
+    print("retrieving data from google sheets...")
+    dfgs = gs.get_dataframe_from_sheet(spreadsheet_name, worksheet_name)
+
+    # update gmv in google sheets using data from database
+    print("updating gmv data in google sheets...")
+    dfgs['Sales'] = dfgs.apply(lambda row: dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers']), 'Sales'].values[0] if not dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers'])].empty else None, axis=1)
+    dfgs['Orders'] = dfgs.apply(lambda row: dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers']), 'Orders'].values[0] if not dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers'])].empty else None, axis=1)
+    dfgs['ItemsSold'] = dfgs.apply(lambda row: dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers']), 'ItemsSold'].values[0] if not dfdb.loc[(dfdb['Brand'] == row['Brand']) & (dfdb['Platform'] == row['Platform']) & (dfdb['Date'] == row['Date']) & (dfdb['HourDuration'] == row['HourDuration']) & (dfdb['Viewers'] == row['Viewers'])].empty else None, axis=1)
+
+    # load updated data to google sheets
+    print("loading updated gmv data to google sheets...")
+    gs.load_dataframe_to_sheet(dfgs, spreadsheet_name, worksheet_name)
+
+    print(f"Successfully updated GMV data in Google Sheets: {spreadsheet_name} - {worksheet_name}")
+
+def load_raw_komisi_shopee_all(start_date, end_date, monthyear, folder_path):
     """
     monthyear = 'aug-2026'
     """
@@ -27,13 +53,13 @@ def load_raw_komisi_shopee_all(start_date, end_date, monthyear):
     brands = ['Deltomed','Heavenly Yogurt',
               'Samyang','Herbana','Herbamojo']
     for brand in brands:
-        FOLDER_ID_shopee = "1Kggsmccr6CTUF9jLJ5tJfbQYoGikg5A5"
+        FOLDER_ID_shopee = folder_path
         sheet_name_shopee = f"{brand}-gmv-shopee-{monthyear}"
         df_shopee = get_silver_data_shopee(start_date=start_date, end_date=end_date, brand_name=brand)
         gs.create_sheet_in_folder(title=sheet_name_shopee, folder_id=FOLDER_ID_shopee)
         gs.load_dataframe_to_sheet(df = df_shopee, spreadsheet_name=sheet_name_shopee)
 
-def load_raw_komisi_tiktok_all(start_date, end_date, monthyear):
+def load_raw_komisi_tiktok_all(start_date, end_date, monthyear, folder_path):
     """
     monthyear = 'aug-2026'
     """
@@ -41,7 +67,7 @@ def load_raw_komisi_tiktok_all(start_date, end_date, monthyear):
     brands = ['Deltomed',
               'Medikon','Samyang','Herbana','Air Mancur','Simba Cereal','Biarfit']
     for brand in brands:
-        FOLDER_ID_tiktok = "1mhw5xcLmwwj_EKy5yPb7ANm5d5N7LaSv"
+        FOLDER_ID_tiktok = folder_path
         sheet_name_tiktok = f"{brand}-gmv-tiktok-{monthyear}"
         df_tiktok = get_silver_data_tiktok(start_date=start_date, end_date=end_date, brand_name=brand)
         gs.create_sheet_in_folder(title=sheet_name_tiktok, folder_id=FOLDER_ID_tiktok)
