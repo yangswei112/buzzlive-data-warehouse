@@ -72,7 +72,7 @@ def load_silver_to_sheets(start_date_weekly, end_date_weekly):
     'Bloomlab': 'BLOOMLAB REPORT 2026 (NEW)',
     'Deltomed': 'DELTOMED REPORT 2026',
     'Heavenly Yogurt': 'HEAVENLY YOGURT REPORT 2026 (NEW)',
-    'Medikon': 'MEDIKON REPORT 2026 (NEW)',
+    'Biarfit': 'MEDIKON REPORT 2026 (NEW)',
     'Ona Indonesia': 'ONA INDONESIA REPORT 2026 (NEW)',
     'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
     'Herbana': 'HERBANA REPORT 2026 (NEW)',
