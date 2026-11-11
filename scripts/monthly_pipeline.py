@@ -80,3 +80,25 @@ def load_shopee_seller_to_sheet(start_date_monthly, end_date_monthly):
 
 def backup_db(month: str):
     backup_database(monthyear=month)
+
+def load_raw_komisi_shopee(start_date, end_date, monthyear, folder_path, brand_name):
+    """
+    monthyear = 'aug-2026'
+    """
+    gs = GoogleSheetsConn()
+    FOLDER_ID_shopee = folder_path
+    sheet_name_shopee = f"{brand_name}-gmv-shopee-{monthyear}"
+    df_shopee = get_silver_data_shopee(start_date=start_date, end_date=end_date, brand_name=brand_name)
+    gs.create_sheet_in_folder(title=sheet_name_shopee, folder_id=FOLDER_ID_shopee)
+    gs.load_dataframe_to_sheet(df = df_shopee, spreadsheet_name=sheet_name_shopee)
+
+def load_raw_komisi_tiktok(start_date, end_date, monthyear, folder_path, brand_name):
+    """
+    monthyear = 'aug-2026'
+    """
+    gs = GoogleSheetsConn()
+    FOLDER_ID_tiktok = folder_path
+    sheet_name_tiktok = f"{brand_name}-gmv-tiktok-{monthyear}"
+    df_tiktok = get_silver_data_tiktok(start_date=start_date, end_date=end_date, brand_name=brand_name)
+    gs.create_sheet_in_folder(title=sheet_name_tiktok, folder_id=FOLDER_ID_tiktok)
+    gs.load_dataframe_to_sheet(df = df_tiktok, spreadsheet_name=sheet_name_tiktok)

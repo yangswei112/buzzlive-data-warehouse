@@ -88,3 +88,119 @@ def load_silver_to_sheets(start_date_weekly, end_date_weekly):
         print(f"{brand} data has been loaded to google sheets")
 
     print("data successfully loaded to each brand gsheets")
+
+def load_to_database_shopee(start_date_weekly, end_date_weekly, brand_name):
+    """
+    to load the transformed data to the database
+    """
+    # load the transformed data to database
+    load_to_db_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+
+    print("data successfully loaded into database")
+
+def load_to_database_tiktok(start_date_weekly, end_date_weekly, brand_name):
+    """
+    to load the transformed data to the database
+    """
+    # load the transformed data to database
+    load_to_db_tiktok(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+
+    print("data successfully loaded into database")
+
+def load_to_bigquery_shopee(start_date_weekly, end_date_weekly, brand_name):
+    bq = BigQueryConn()
+    # load the gold bronze data to bigquery
+    gold_bronze_df_shopee = get_raw_data_from_db_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    bq.load_dataframe_to_bigquery(gold_bronze_df_shopee)
+
+    print(f"{brand_name} data from {start_date_weekly} to {end_date_weekly} successfully loaded to bigquery")
+
+def load_to_bigquery_tiktok(start_date_weekly, end_date_weekly, brand_name):
+    bq = BigQueryConn()
+    # load the gold bronze data to bigquery
+    gold_bronze_df_tiktok = get_raw_data_from_db_tiktok(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    bq.load_dataframe_to_bigquery(gold_bronze_df_tiktok)
+
+    print(f"{brand_name} data from {start_date_weekly} to {end_date_weekly} successfully loaded to bigquery")
+
+def load_to_gsheet_shopee(start_date_weekly, end_date_weekly, brand_name):
+    gs = GoogleSheetsConn()
+    # get the data from db
+    gold_silver_df = get_gold_silver_data_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    # transform
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+    mapping = {'00:00:00':'23:59:00'}
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].replace(mapping)
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].replace(mapping)
+    # find host
+    print("Mapping host from prelive data")
+    # getting the prelive data
+    df_prelive = get_prelive_data()
+    gold_silver_df['Host'] = gold_silver_df.apply(lambda row: find_host(df_prelive=df_prelive, id=row['ID'], date=row['Date'], start_time=row['StartLive'], end_time=row['EndLive'], platform=row['Platform']), axis=1)
+    
+    # load the gold silver data to google sheet
+    gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
+
+    # return gold_silver_df
+    print("data successfully loaded to 'data-to-dashboard' google sheet")
+
+def load_to_gsheet_tiktok(start_date_weekly, end_date_weekly, brand_name):
+    gs = GoogleSheetsConn()
+    # get the data from db
+    gold_silver_df = get_gold_silver_data_tiktok(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    # transform
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].apply(lambda x: x.strftime('%H:%M:%S'))
+    mapping = {'00:00:00':'23:59:00'}
+    gold_silver_df['StartLive'] = gold_silver_df['StartLive'].replace(mapping)
+    gold_silver_df['EndLive'] = gold_silver_df['EndLive'].replace(mapping)
+    # find host
+    print("Mapping host from prelive data")
+    # getting the prelive data
+    df_prelive = get_prelive_data()
+    gold_silver_df['Host'] = gold_silver_df.apply(lambda row: find_host(df_prelive=df_prelive, id=row['ID'], date=row['Date'], start_time=row['StartLive'], end_time=row['EndLive'], platform=row['Platform']), axis=1)
+    
+    # load the gold silver data to google sheet
+    gs.load_dataframe_to_sheet(gold_silver_df, spreadsheet_name='data-to-dashboard', worksheet_name='from_db')
+
+    # return gold_silver_df
+    print("data successfully loaded to 'data-to-dashboard' google sheet")
+
+def load_silver_to_sheets_shopee(start_date_weekly, end_date_weekly, brand_name):
+    brand_gsheet_dct = {
+        'Ortuseight': 'ORTUSEIGHT REPORT 2026 (NEW)',
+        'Beeme': "BEEME REPORT 2026 (NEW)",
+        'Bloomlab': 'BLOOMLAB REPORT 2026 (NEW)',
+        'Deltomed': 'DELTOMED REPORT 2026',
+        'Heavenly Yogurt': 'HEAVENLY YOGURT REPORT 2026 (NEW)',
+        'Biarfit': 'MEDIKON REPORT 2026 (NEW)',
+        'Ona Indonesia': 'ONA INDONESIA REPORT 2026 (NEW)',
+        'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
+        'Herbana': 'HERBANA REPORT 2026 (NEW)',
+        'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',
+        'Air Mancur': 'AIR MANCUR REPORT 2026 (NEW)',
+        'Simba Cereal': 'SIMBA CEREAL REPORT 2026 (NEW)'}
+    gs = GoogleSheetsConn()
+    silver_shopee_df = get_silver_data_shopee(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    gs.load_dataframe_to_sheet(df=silver_shopee_df, spreadsheet_name=brand_gsheet_dct[brand_name], worksheet_name='from_db_shopee')
+    print(f"{brand_name} data has been loaded to google sheets")
+
+def load_silver_to_sheets_tiktok(start_date_weekly, end_date_weekly, brand_name):
+    brand_gsheet_dct = {
+            'Ortuseight': 'ORTUSEIGHT REPORT 2026 (NEW)',
+            'Beeme': "BEEME REPORT 2026 (NEW)",
+            'Bloomlab': 'BLOOMLAB REPORT 2026 (NEW)',
+            'Deltomed': 'DELTOMED REPORT 2026',
+            'Heavenly Yogurt': 'HEAVENLY YOGURT REPORT 2026 (NEW)',
+            'Biarfit': 'MEDIKON REPORT 2026 (NEW)',
+            'Ona Indonesia': 'ONA INDONESIA REPORT 2026 (NEW)',
+            'Samyang': 'SAMYANG FOOD INDONESIA REPORT 2026 (NEW)',
+            'Herbana': 'HERBANA REPORT 2026 (NEW)',
+            'Herbamojo': 'HERBAMOJO REPORT 2026 (NEW)',
+            'Air Mancur': 'AIR MANCUR REPORT 2026 (NEW)',
+            'Simba Cereal': 'SIMBA CEREAL REPORT 2026 (NEW)'}
+    gs = GoogleSheetsConn()
+    silver_tiktok_df = get_silver_data_tiktok(start_date=start_date_weekly, end_date=end_date_weekly, brand_name=brand_name)
+    gs.load_dataframe_to_sheet(df=silver_tiktok_df, spreadsheet_name=brand_gsheet_dct[brand_name], worksheet_name='from_db_tiktok')
+    print(f"{brand_name} data has been loaded to google sheets")

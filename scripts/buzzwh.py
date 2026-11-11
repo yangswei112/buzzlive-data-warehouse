@@ -287,3 +287,143 @@ def backup_database(monthyear: str):
         conn.execute(query_backup, {"backup_file": backup_file})
 
     print(f'Database has been backed up to {backup_file}')
+
+
+def load_to_db_shopee(start_date, end_date, brand_name):
+    procedures_no_params = [
+        "EXEC bronze.load_info;",
+        "EXEC bronze.load_shopee;",
+        "EXEC silver.load_shopee;"
+    ]
+    
+    # Define parameterized stored procedure queries
+    silver_shopee_query = text("""
+        UPDATE silver.shopee_livestreaming
+        SET Studio = 'Klaten'
+        WHERE UserId = (SELECT brand_id FROM silver.brand_info WHERE brand_name= :brand AND platform='Shopee')
+        AND live_start_date BETWEEN @start_date = :start AND @end_date = :end;
+    """)
+    
+    # Dictionary of parameters passed to session execution
+    date_params = {"start": start_date, "end": end_date, "brand": brand_name}
+    
+    with ss.get_session() as session:
+        # 1. Execute stored procedures without parameters
+        for proc in procedures_no_params:
+            session.execute(text(proc))
+            
+        # 2. Execute stored procedures with parameters
+        session.execute(silver_shopee_query, date_params)
+        
+        # Context manager automatically commits upon exiting without errors
+
+def load_to_db_tiktok(start_date, end_date, brand_name):
+    procedures_no_params = [
+        "EXEC bronze.load_info;",
+        "EXEC bronze.load_tiktok;",
+        "EXEC silver.load_info;",
+        "EXEC silver.load_tiktok;",
+    ]
+    
+    # Define parameterized stored procedure queries
+    silver_tiktok_query = text("""
+        UPDATE silver.tiktok_livestreaming
+        SET Studio = 'Klaten'
+        WHERE CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name = :brand AND platform='Tiktok')
+        AND live_start_date BETWEEN @start_date = :start AND @end_date = :end;
+    """)
+    
+    # Dictionary of parameters passed to session execution
+    date_params = {"start": start_date, "end": end_date, "brand": brand_name}
+    
+    with ss.get_session() as session:
+        # 1. Execute stored procedures without parameters
+        for proc in procedures_no_params:
+            session.execute(text(proc))
+            
+        # 2. Execute stored procedures with parameters
+        session.execute(silver_tiktok_query, date_params)
+        
+        # Context manager automatically commits upon exiting without errors
+
+def get_raw_data_from_db_shopee(start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    Fetches Shopee raw data from DB and returns a single concatenated DataFrame.
+    """
+    query_raw_shopee = text("""
+        SELECT * FROM gold.ShopeeRawDataForHR
+        WHERE live_start_date BETWEEN :start AND :end
+        and brand_name = :brand;
+    """)
+    
+    params = {"start": start_date, "end": end_date, "brand": brand_name}
+    
+    # 1. Added parentheses to get_connection()
+    with ss.get_connection() as conn:
+        # 2. Passed params dictionary to read_sql_query
+        df_raw_shopee = pd.read_sql_query(query_raw_shopee, conn, params=params)
+        
+    print('raw data has been retrieved from database')
+
+    return df_raw_shopee
+
+def get_raw_data_from_db_tiktok(start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    Fetches TikTok raw data from DB and returns a single concatenated DataFrame.
+    """
+    query_raw_tiktok = text("""
+        SELECT * FROM gold.TiktokRawDataForHR
+        WHERE live_start_date BETWEEN :start AND :end
+        and brand_name = :brand;
+    """)
+    
+    params = {"start": start_date, "end": end_date, "brand": brand_name}
+    
+    # 1. Added parentheses to get_connection()
+    with ss.get_connection() as conn:
+        # 2. Passed params dictionary to read_sql_query
+        df_raw_tiktok = pd.read_sql_query(query_raw_tiktok, conn, params=params)
+        df_raw_tiktok.rename(columns={'LivestreamCreator':'LivestreamName'}, inplace=True)
+        
+    print('raw data has been retrieved from database')
+
+    return df_raw_tiktok
+
+def get_gold_silver_data_shopee(start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    to get gold silver data from database
+    """
+    query_gold_silver_shopee = text("""
+        SELECT * FROM gold.WeeklyShopeeLive
+        WHERE Date BETWEEN :start AND :end
+        AND Studio = 'Klaten'
+        AND Brand = :brand
+        ORDER BY Brand, Date, StartLive ASC;
+        """)
+    
+    params = {"start": start_date, "end": end_date, "brand": brand_name}
+    with ss.get_connection() as conn:
+        df_gold_silver_shopee = pd.read_sql_query(query_gold_silver_shopee, conn, params=params)
+
+    print('gold silver data has been retrieved from database')
+
+    return df_gold_silver_shopee
+
+def get_gold_silver_data_tiktok(start_date: str, end_date: str, brand_name: str) -> pd.DataFrame:
+    """
+    to get gold silver data from database
+    """
+    query_gold_silver_tiktok = text("""
+        SELECT * FROM gold.WeeklyTiktokLive
+        WHERE Date BETWEEN :start AND :end
+        AND Studio = 'Klaten'
+        AND Brand = :brand
+        ORDER BY Brand, Date, StartLive ASC;
+        """)
+    params = {"start": start_date, "end": end_date, "brand": brand_name}
+    with ss.get_connection() as conn:
+        df_gold_silver_tiktok = pd.read_sql_query(query_gold_silver_tiktok, conn, params=params)
+
+    print('gold silver data has been retrieved from database')
+
+    return df_gold_silver_tiktok
