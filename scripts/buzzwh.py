@@ -127,8 +127,8 @@ def get_silver_data_tiktok(start_date: str, end_date: str, brand_name: str) -> p
     """
     query_silver_tiktok = text("""
         SELECT
-        CreatorId, LivestreamCreator, StartTime, Duration, live_direct_gmv, OrdersPaidFor, ItemsSold, Customers, live_avg_price,
-        CTOR, live_gross_revenue, Viewers, Views, AvgViewDuration, Comments, Shares, Likes, NewFollowers, ProductImpressions, ProductClicks, CTR
+        CreatorId, LivestreamCreator, StartTime, Duration, live_gross_revenue AS Live-attributed GMV, OrdersPaidFor, ItemsSold, Customers, live_avg_price,
+        CTOR, live_direct_gmv, Viewers, Views, AvgViewDuration, Comments, Shares, Likes, NewFollowers, ProductImpressions, ProductClicks, CTR
         FROM silver.tiktok_livestreaming
         WHERE live_start_date BETWEEN :start AND :end
         AND CreatorId = (SELECT brand_id FROM silver.brand_info WHERE brand_name=:brand AND platform='Tiktok')
@@ -241,13 +241,13 @@ def update_tiktok_sales(tiktok_path: str):
     ready_to_db_tiktok_update = pd.concat(transformed_tiktok_lst)  
     
     # Update Tiktok Sales
-    ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_direct_gmv','OrdersPaidFor','ItemsSold','Customers']]
+    ready_to_update_tiktok = ready_to_db_tiktok_update[['CreatorId','StartTime','live_gross_revenue','OrdersPaidFor','ItemsSold','Customers']]
     # ready_to_update_tiktok.head()
 
     for index, row in ready_to_update_tiktok.iterrows():
         query_update_sales_tiktok = text("""
                         UPDATE silver.tiktok_livestreaming
-                        SET live_direct_gmv = :row1,
+                        SET live_gross_revenue = :row1,
                             OrdersPaidFor = :row2,
                             ItemsSold = :row3,
                             Customers = :row4
